@@ -1,0 +1,95 @@
+Tipos de Utilizadores:
+	- Anonymous
+	- Administration
+	- Normal
+
+Geral:
+	1 - Ver a página inicial (número total de utilizadores registados, 
+		número total de contas e movimentos registados)
+
+Anonymous:
+	2 - Registo como novo utilizador
+		- Dados de registo: 
+			- Nome (espaços e letras)
+			- E-mail (unique)
+			- Password (3 ou mais caracteres)
+			- Número telefone (opcional)
+			- Foto (opcional - upload de imagem)
+	3 - Autenticação na aplicação (e-mail e password)
+	4 - Reset password (envio de e-mail caso este seja válido)
+
+Administration:
+	5 - Ver lista de utilizadores registados (utilizadores bloqueados e adminitradores).
+		- Mostrar o nome, email, tipo e status (bloqueado ou não)
+	6 - Filtrar utlizadores por nome (partial match), tipo e status
+	7 - Bloquear ou reativar utilizadores e mudar o status de qualquer utilizador, 
+		excepto	do próprio
+
+Normal:
+	8 - Fazer logout da aplicação. Redirecionar para a página inicial
+	9 - Mudar a password
+	10 - Update no perfil (nome, email, telefone, foto)
+		- Ao fazer update do email garantir que o novo email 
+			é unico entre todos os utilizadores (inclusive bloqueados)
+	11 - Ver e filtrar (por nome) o perfil publico de todos os utilizadores registados (inclusive administradores e bloqueados)
+		- Perfil publico:
+			- Nome
+			- Foto (se existir)
+		- Membros do meu grupo devem ser identificados como tal, assim como membros de grupos a que pertenço
+	12 - Ver lista de utilizadores que pertence ao meu grupo
+		- Deve mostrar nome e email de cada membro
+	13 - Ver lista de utilizadores cujos gurpo eu pertenço
+		- Deve mostrar nome, email e link para a página da conta
+	14 - Ver lista das minhas contas abertas assim como das contas fechadas
+	15 - Apagar (caso não tenha movimentos) ou fechar uma conta aberta
+	16 - Reabrir uma conta fechada
+	17 - Criar contas
+		- Dados de conta:
+			- Tipo de conta
+			- Data de criação (não necessariamente a data atual)
+			- Código da conta
+			- Saldo inicial da conta
+			- Descrição
+	18 - Editar dados das contas (tipo, código [unico para cada utilizador],
+		 descrição e saldo inicial)
+	19 - Quando mudar o saldo inicial a aplicação deve recalcular todos os saldos iniciais e finais
+		 de todos os movimentos da conta, assim como o saldo atual
+	20 - Ver todos os movimentos de uma conta (categoria, data, valor, tipo e saldo final)
+	21 - Adicionar, editar e apagar movimentos da conta:
+		- Dados de movimentos:
+			-Tipo (revenue ou expense)
+			- Categoria
+			- Data
+			- Valor
+			- Descrição (opcional)
+			- Link para documento associado
+			[Saldos iniciais e finais calculados automaticamente - utilizador não pode editar esses valores]
+	22 - Quando adicionar, editar ou apagar movimentos, a aplicação deve recalcular o saldo da conta, 
+		assim como o saldo inicial e final de todos os movimentos afetados de acordo com a data do movimento em causa
+	23 - Adicionar (upload) documentos (pdf, png ou jpeg) e associar a um movimento
+	24 - Remover documentos e desassociar de movimentos
+	25 - Ver/download documentos dos movimentos associados.
+		Apenas eu e utilizadores que pertençam ao meu grupo o podem fazer
+	26 - Sumário da situação financeira:
+		- Saldo total de todas as contas (user's grand total)
+		- Sumário da informação sobre cada conta:
+			- Peso (percentagem) de cada conta sobre o saldo total
+	27 - Ver (texto e gráfico) informação estatística sobre o total de receitas e 
+		despesas por categoria, num determinado intervalo de tempo
+	28 - Ver (texto e gráfico) informação estatística sobre a evolução de mês a mês 
+		das receitas e despesas por categoria, num determinado intervalo de tempo
+	29 - Adicionar qualquer utilizador ao meu grupo, o que lhe dará permissão para ver os meus dados financeiros
+	30 - Remover qualquer utilizador ao meu grupo, o que lhe proibirá de ver os meus dados financeiros
+	31 - Aceder à informação financeira e ver/download de qualquer utilizador cujo grupo eu pertença
+	32 - Quando aceder à informação financeira de outro utilizador, não posso adicionar, editar ou apagar nada que perteça a esse utilizador
+	33 - /////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+------------------------------------
+<form action="..." enctype="multipart/form-data">

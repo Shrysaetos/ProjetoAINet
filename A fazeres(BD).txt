@@ -1,0 +1,33 @@
+A fazeres na BD:
+
+Campos de um registo de uma conta:
+	- Titular (string)
+	- Código de conta (string, unique)
+	- Data de criacao da conta (menor que o sysdate, data)
+	- Descricao (string)
+	- Saldo atual (float, positivo ou negativo)
+	- Saldo Inicial (float, positivo ou negativo)
+	- Tipo (enum)
+	- Estado (enum)
+
+
+- Definir os tipos de conta (enum), baseado na seed??
+- Fechar conta (soft delete)
+	* Conta fechada nao deve ser mostrada na lista de contas
+	* Podem ser reabertas atraves de uma lista propria
+	* Nao podem ser contadas para estatísticas ou resumos
+
+
+Campos de um registo de um movimento:
+	- Código de conta (string, unique)
+	- Tipo (enum)
+	- Descricao (string)
+	- Valor (float)
+	- Data (Data, sem timestamp)
+	- Valor inicial (float, calculado)
+	- Valor final (float, calculado)
+	
+
+- Definir tipos de movimento (despesa, receita)
+- Categorias (Comida, Roupa, Services, Electricity, Telefone, Combustivel, Renda, Prendas (+), Salario(+), Baseado em seed???)
+- Registos ordenados por data
