@@ -31,3 +31,5 @@ Campos de um registo de um movimento:
 - Definir tipos de movimento (despesa, receita)
 - Categorias (Comida, Roupa, Services, Electricity, Telefone, Combustivel, Renda, Prendas (+), Salario(+), Baseado em seed???)
 - Registos ordenados por data
+
+Pode ser necessário mais alguma coisa
