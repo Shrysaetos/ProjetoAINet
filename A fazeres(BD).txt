@@ -1,7 +1,7 @@
 A fazeres na BD:
 
 Campos de um registo de uma conta:
-	- Titular (string)
+	- Titular (string) (o que fica neste campo? userName? userId?)
 	- Código de conta (string, unique)
 	- Data de criacao da conta (menor que o sysdate, data)
 	- Descricao (string)
@@ -32,4 +32,3 @@ Campos de um registo de um movimento:
 - Categorias (Comida, Roupa, Services, Electricity, Telefone, Combustivel, Renda, Prendas (+), Salario(+), Baseado em seed???)
 - Registos ordenados por data
 
-Pode ser necessário mais alguma coisa
