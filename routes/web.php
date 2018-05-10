@@ -17,3 +17,7 @@ Route::get('/', function () {
 
 // Listagem
 Route::get('users', 'UserController@index')->name('users.index');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
