@@ -15,4 +15,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Listagem
+Route::get('users', 'UserController@index')->name('users.index');
 
+// Formulário para adicionar
+Route::get('users/create', 'UserController@create')->name('users.create');
+// Acção de adicionar
+Route::post('users/create', 'UserController@store')->name('users.store');
+
+// Formulário para editar
+Route::get('/users/{user}/edit', 'UserController@edit')->name('users.edit');
+// Acção de guardar
+Route::put('/users/{user}/edit', 'UserController@update')->name('users.update');
+
+Route::delete('/users/{user}', 'UserController@destroy')->name('users.destroy');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
