@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'type', 'phone'
+        'name', 'email', 'password', 'type'
     ];
 
     /**
@@ -27,18 +27,33 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function typeToStr()
+    // formatted_type
+    public function getFormattedTypeAttribute()
     {
         switch ($this->type) {
             case '0':
-                return 'Anonymous';
-            case '1':
-                return 'Normal';
-            case '2':
                 return 'Administrator';
+            case '1':
+                return 'Publisher';
+            case '2':
+                return 'Client';
         }
 
         return 'Unknown';
     }
 
+    public function isAdmin()
+    {
+        return $this->type == '0';
+    }
+
+    public function isPublisher()
+    {
+        return $this->type == '1';
+    }
+
+    public function isClient()
+    {
+        return $this->type == '2';
+    }
 }

@@ -15,5 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Listagem
-Route::get('users', 'UserController@index')->name('users.index');
+

@@ -11,6 +11,9 @@
     <div class="container">
         <div class="jumbotron">
           <h1>@yield('title')</h1>
+          @if(Auth::check())
+            @include('partials.menu')
+          @endif
         </div>
         @if(session('success'))
             @include('partials.success')
