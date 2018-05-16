@@ -60,11 +60,9 @@
                                 </a>
                             </div>
                         </div>
-                        <label for="count_registries">Total of registered users:<span>$count</span></label>
-                        <p><p><label for="count_registries">Total of accounts:<span>$count</span></label></p></p>
-                        <label for="count_registries">Total of registered movements:<span>$count</span></label>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>

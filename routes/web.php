@@ -19,9 +19,18 @@ Route::get('/', function () {
 Route::get('users', 'UserController@index')->name('users.index');
 
 // Formulário para adicionar
-Route::get('users/create', 'UserController@create')->name('users.create');
+Route::get('users/register', 'UserController@create')->name('users.create');
 // Acção de adicionar
-Route::post('users/create', 'UserController@store')->name('users.store');
+Route::post('users/register', 'UserController@store')->name('users.store');
+
+//Ação de login
+Route::post('users/login', 'LoginController@login');
+
+// Password Reset Routes...
+Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.reset');
+Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset.token');
+Route::post('password/reset', 'ResetPasswordController@reset');
 
 // Formulário para editar
 Route::get('/users/{user}/edit', 'UserController@edit')->name('users.edit');

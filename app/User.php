@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\MailResetPasswordToken;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -15,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'type'
+        'name', 'email', 'password', 'phone', 'photo',
     ];
 
     /**
@@ -55,5 +56,15 @@ class User extends Authenticatable
     public function isClient()
     {
         return $this->type == '2';
+    }
+
+    public function countUsers()
+    {
+        return User::count(users);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new MailResetPasswordToken($token));
     }
 }

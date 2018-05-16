@@ -51,7 +51,9 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:3|confirmed',
+            'phone' => 'nullable|min:9|max:9',
+            'photo' => 'nullable|image:jpg,png,jpeg|max:1000',
         ]);
     }
 
@@ -63,10 +65,22 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $fileName = 'null';
+        if (Input::file('photo')->isValid()) {
+           $destinationPath = public_path('uploads/files');
+           $extension = Input::file('photo')->getClientOriginalExtension();
+           $fileName = uniqid().'.'.$extension;
+
+           Input::file('photo')->move($destinationPath, $fileName);
+        }
+
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'phone' => $data['phone'],
+            'photo' => $fileName,
         ]);
     }
 }
