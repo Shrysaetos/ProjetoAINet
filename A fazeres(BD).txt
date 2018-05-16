@@ -1,7 +1,7 @@
 A fazeres na BD:
 
 Campos de um registo de uma conta:
-	- Titular (string) (o que fica neste campo? userName? userId?)
+	- Titular (int)
 	- Código de conta (string, unique)
 	- Data de criacao da conta (menor que o sysdate, data)
 	- Descricao (string)
@@ -31,4 +31,28 @@ Campos de um registo de um movimento:
 - Definir tipos de movimento (despesa, receita)
 - Categorias (Comida, Roupa, Services, Electricity, Telefone, Combustivel, Renda, Prendas (+), Salario(+), Baseado em seed???)
 - Registos ordenados por data
+
+
+
+
+
+
+
+
+
+
+
+
+
+Filtros
+$query = Modelo::query();
+if (condicao){
+	$query = $query->where(...)
+}
+
+
+$modelo = $query->resultado();
+
+
+
 

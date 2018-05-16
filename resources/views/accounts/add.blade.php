@@ -10,8 +10,12 @@
 
 <!--Falta alterar para as contas-->
 
-<form action="{{route('users.store')}}" method="post" class="form-group">
-    @include('users.partials.add-edit')
+<form action="{{route('account.store')}}" method="post" class="form-group">
+    @include('accounts.partials.add-edit')
+
+
+    <!--Alterar codigo abaixo-->
+
     <div class="form-group">
         <label for="inputPassword">Password</label>
         <input
