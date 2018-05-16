@@ -1,5 +1,13 @@
 @csrf
 
+<div class="form-group">
+    <label for="inputCode">Account Code</label>
+    <input
+        type="text" class="form-control"
+        name="code" id="inputCode"
+        value="{{old('code', $account->code)}}"/>
+</div>
+
 
 <div class="form-group">
     <label for="inputAccountType">Account Type</label>
@@ -16,8 +24,13 @@
     <input type="datetime-local" name="date" id="inputDate" class="form-control"/>    
 </div>
 
-
-<!--Código de conta inserido pelo utilizador ou gerado????-->
+<div class="form-group">
+    <label for="inputStartBalance">Start balance</label>
+    <input
+        type="number" class="form-control"
+        name="startBalance" id="inputStartBalance"
+        value="{{old('startBalance', $account->startBalance)}}"/>
+</div>
 
 
 <div class="form-group">
@@ -25,6 +38,6 @@
     <input
         type="text" class="form-control"
         name="description" id="inputDescription"
-        value="{{old('description', $moviment->description)}}"/>
+        value="{{old('description', $account->description)}}"/>
 </div>
 

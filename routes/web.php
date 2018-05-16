@@ -41,7 +41,7 @@ Route::delete('accounts/{account}', 'AccountController@delete')->name('account.d
 Route::patch('accounts/{account}/close', 'AccountController@close')->name('account.close');
 Route::patch('accounts/{account}/reopen', 'AccountController@reopen')->name('account.reopen');
 
-Route::post('/account', 'AccountController@store')->name('account.create');
+Route::post('/account', 'AccountController@store')->name('account.store');
 Route::put('/account/{account}', 'AccountController@update')->name('account.update');
 
 
@@ -49,9 +49,6 @@ Route::put('/account/{account}', 'AccountController@update')->name('account.upda
 
 //Moviment routes
 Route::get('/movements/{account}', 'MovimentController@index')->name('moviment.index');
-
-Route::get('/movements/{account}', 'MovimentController@create')->name('moviment.create');
-Route::post('/movements/{account}', 'MovimentController@store')->name('moviment.store');
 
 Route::get('/movements/{account}', 'MovimentController@create')->name('moviment.create');
 Route::post('/movements/{account}', 'MovimentController@store')->name('moviment.store');
@@ -64,6 +61,10 @@ Route::delete('/movement/{movement}', 'MovimentController@delete')->name('movime
 Route::delete('/documents/{movement}', 'MovimentController@document')->name('moviment.document');
 
 
+
+
+
+Route::get('/dashboard/{user}', 'UserController@generalStats')->name('user.stats');
 
 Auth::routes();
 
