@@ -2,7 +2,7 @@
 
 <div class="form-group">
     <label for="inputMovimentCategory">Moviment Category</label>
-    <select name="category" id="inputMovimentCategory" class="form-control">
+    <select name="moviment_category_id" id="inputMovimentCategory" class="form-control">
         <option disabled selected> -- select an option -- </option>
         <!--A alterar!!!!!!!-->
         <option {{is_selected(old('type', $user->type), '0')}} value="0">Administrator</option>
@@ -31,17 +31,15 @@
 
 
 <div class="form-group">
-    <label for="inputMovimentType">Moviment Type</label>
-    <select name="type" id="inputMovimentType" class="form-control">
-        <option disabled selected> -- select an option -- </option>
-        <!--A alterar!!!!!!!-->
-        <option {{is_selected(old('type', $user->type), '0')}} value="0">Administrator</option>
-    </select>
-</div>
-
-
-<div class="form-group">
     <label for="inputDocument">Document</label>
     <input type="file" name="document" id="inputDocument" class="form-control"/> 
+</div>
+
+<div class="form-group">
+    <label for="inputDocumentDescription">Document Description</label>
+    <input
+        type="text" class="form-control"
+        name="documentDescription" id="inputDocumentDescription"
+        value="{{old('description', $moviment->documentDescription)}}"/>
 </div>
 
