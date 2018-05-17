@@ -73,7 +73,7 @@
                             <label for="profile_photo" class="col-md-4 col-form-label text-md-right">{{ __('Photo (Optional)') }}</label>
 
                             <div class="col-md-6">
-                                <input type="file" name="profile_photo" class="custom-file-input">
+                                <input type="file" name="profile_photo">
                                 <span class="custom-file-control"></span>
                             </div>
                             </label>

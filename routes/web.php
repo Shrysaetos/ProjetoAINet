@@ -15,6 +15,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+    
+//Ver próprio perfil
+Route::get('profile', 'UserController@profile')->name('profile');
+
+//Editar foto
+Route::post('profile', 'UserController@update_photo')->name('user.update.photo');
+
 // Listagem
 Route::get('users', 'UserController@index')->name('users.index');
 
@@ -24,9 +32,13 @@ Route::get('users/register', 'UserController@create')->name('users.create');
 Route::post('users/register', 'UserController@store')->name('users.store');
 
 //Ação de login
-Route::post('users/login', 'LoginController@login');
+Route::post('users/login', 'LoginController@login')->name('login');
 
-// Password Reset Routes...
+
+//Update user
+Route::put('/user', 'UsersController@putUpdateUser');
+
+//Password Reset Routes...
 Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.reset');
 Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset.token');
