@@ -62,6 +62,10 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            .number {
+            	font-size: 30px;
+            }
         </style>
     </head>
     <body>
@@ -81,7 +85,11 @@
                 <div class="title m-b-md">
                     Personal Finances Assistant
                 </div>
-                <!-- Falta colocar o "About us"-->
+                <div class="number">
+                	Number of Users: <strong>{{ count($users) }}</strong><br>
+                	Number of Accounts: <strong>{{ count($accounts) }}</strong><br>
+                	Number of Movements: <strong>{{ count($movements) }}</strong>
+                </div>
             </div>
         </div>
     </body>

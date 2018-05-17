@@ -73,6 +73,14 @@ trait CreatesApplication
             }
             return $this;
         });
+
+        TestResponse::macro('assertSuccessfulOrRedirect', function() {
+            PHPUnit::assertTrue(
+                $this->isSuccessful() || $this->isRedirect(),
+                'Response status code ['.$this->getStatusCode().'] is not a successful status code.'
+            );
+            return $this;
+        });
         return $app;
     }
 }

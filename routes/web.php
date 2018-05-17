@@ -39,7 +39,7 @@ Route::put('/users/{user}/edit', 'UserController@update')->name('users.update');
 
 Route::delete('/users/{user}', 'UserController@destroy')->name('users.destroy');
 
-
+Route::get('/', 'WelcomeController@home');
 
 //Acount routes
 Route::get('accounts/{user}', 'AccountController@index')->name('account.userAccounts');
