@@ -15,13 +15,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Mudar email
 
-    
+//Mudar nome
+
+//Mudar numero telefone
+
+//Mudar password
+Route::post('me/password','UserController@changePassword')->name('changePassword');
+Route::get('me/password','UserController@showChangePasswordForm')->name('changepassword');
+
 //Ver próprio perfil
-Route::get('profile', 'UserController@profile')->name('profile');
+Route::get('me/profile', 'UserController@profile')->name('profile');
 
 //Editar foto
-Route::post('profile', 'UserController@update_photo')->name('user.update.photo');
+Route::post('me/profile', 'UserController@update_photo')->name('user.update.photo');
 
 // Listagem
 Route::get('users', 'UserController@index')->name('users.index');
@@ -54,7 +62,7 @@ Route::delete('/users/{user}', 'UserController@destroy')->name('users.destroy');
 Route::get('/', 'WelcomeController@home');
 
 //Acount routes
-Route::get('accounts/{user}', 'AccountController@index')->name('account.userAccounts');
+Route::get('accounts/{user}', 'AccountController@index')->name('accounts.index');
 Route::get('accounts/{user}/opened', 'AccountController@listOpenAccounts')->name('account.accountsOpened');
 Route::get('accounts/{user}/closed', 'AccountController@listClosedAccounts')->name('account.accountsClosed');
 

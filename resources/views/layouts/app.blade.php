@@ -68,7 +68,7 @@
 
                                     <form id="profile-form" action="{{ route('profile') }}" method="POST" style="display: none;">
                                         @csrf
-                                    </form>
+                                    </form>                                 
                                 </div>
                             </li>
                         @endguest
