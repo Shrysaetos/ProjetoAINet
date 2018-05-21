@@ -15,6 +15,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+//Mudar email
+
+//Mudar nome
+
+//Mudar numero telefone
+
+//Mudar password
+Route::post('me/password','UserController@changePassword')->name('changePassword');
+Route::get('me/password','UserController@showChangePasswordForm')->name('changepassword');
+
+//Ver próprio perfil
+Route::get('me/profile', 'UserController@profile')->name('profile');
+
+//Editar foto
+Route::post('me/profile', 'UserController@update_photo')->name('user.update.photo');
+
 // Listagem
 Route::get('users', 'UserController@index')->name('users.index');
 
@@ -24,9 +40,13 @@ Route::get('users/register', 'UserController@create')->name('users.create');
 Route::post('users/register', 'UserController@store')->name('users.store');
 
 //Ação de login
-Route::post('users/login', 'LoginController@login');
+Route::post('users/login', 'LoginController@login')->name('login');
 
-// Password Reset Routes...
+
+//Update user
+Route::put('/user', 'UsersController@putUpdateUser');
+
+//Password Reset Routes...
 Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.reset');
 Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset.token');
@@ -39,10 +59,10 @@ Route::put('/users/{user}/edit', 'UserController@update')->name('users.update');
 
 Route::delete('/users/{user}', 'UserController@destroy')->name('users.destroy');
 
-
+Route::get('/', 'WelcomeController@home');
 
 //Acount routes
-Route::get('accounts/{user}', 'AccountController@index')->name('account.userAccounts');
+Route::get('accounts/{user}', 'AccountController@index')->name('accounts.index');
 Route::get('accounts/{user}/opened', 'AccountController@listOpenAccounts')->name('account.accountsOpened');
 Route::get('accounts/{user}/closed', 'AccountController@listClosedAccounts')->name('account.accountsClosed');
 
