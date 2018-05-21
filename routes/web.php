@@ -46,12 +46,14 @@ Route::get('accounts/{user}', 'AccountController@index')->name('account.userAcco
 Route::get('accounts/{user}/opened', 'AccountController@listOpenAccounts')->name('account.accountsOpened');
 Route::get('accounts/{user}/closed', 'AccountController@listClosedAccounts')->name('account.accountsClosed');
 
-Route::delete('accounts/{account}', 'AccountController@delete')->name('account.delete');
-Route::patch('accounts/{account}/close', 'AccountController@close')->name('account.close');
-Route::patch('accounts/{account}/reopen', 'AccountController@reopen')->name('account.reopen');
+Route::delete('accounts/{account}', 'AccountController@delete')->name('account.delete');    			///////////////////////////////////
+Route::patch('accounts/{account}/close', 'AccountController@closeAccount')->name('account.close'); 		///////////////////////////////////
+Route::patch('accounts/{account}/reopen', 'AccountController@reopenAccount')->name('account.reopen');
 
-Route::post('/account', 'AccountController@store')->name('account.store');
-Route::put('/account/{account}', 'AccountController@update')->name('account.update');
+Route::post('/account', 'AccountController@store')->name('account.store');								///////////////////////////////////
+Route::put('/account/{account}', 'AccountController@update')->name('account.update'); 					///////////////////////////////////
+
+
 
 
 
@@ -69,7 +71,8 @@ Route::delete('/movement/{movement}', 'MovimentController@delete')->name('movime
 
 Route::delete('/documents/{movement}', 'MovimentController@document')->name('moviment.document');
 
-
+Route::delete('/document/{document}', 'MovimentController@documentDelete')->name('moviment.documentDelete');
+Route::get('/document/{document}', 'MovimentController@documentDownload')->name('moviment.documentDownload');
 
 
 

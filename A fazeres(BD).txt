@@ -1,14 +1,15 @@
 A fazeres na BD:
 
 Campos de um registo de uma conta:
-	- Titular (int)
+	- Titular (int) - Automático
 	- Código de conta (string, unique)
 	- Data de criacao da conta (menor que o sysdate, data)
 	- Descricao (string)
-	- Saldo atual (float, positivo ou negativo)
-	- Saldo Inicial (float, positivo ou negativo)
+	- Saldo atual (float, positivo ou negativo) - campo calculado
+	- Saldo Inicial (float, positivo ou negativo) - aparece no add, mas nao no edit
+	- Data ultimo movimento (tirada da table dos movimentos)
 	- Tipo (enum)
-	- Estado (enum)
+	- Estado (enum) - definido automaticamente como "open"
 
 
 - Definir os tipos de conta (enum), baseado na seed??

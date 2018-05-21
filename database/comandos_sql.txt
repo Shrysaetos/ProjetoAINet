@@ -1,0 +1,4 @@
+CONTAS:
+
+	SELECT * FROM accounts WHERE owner_id = xx;    //mostra todas as contas do utilizador
+	

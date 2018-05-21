@@ -6,7 +6,7 @@
 @if ($errors->any())
     @include('partials.errors')
 @endif
-<form action="{{route('users.update', $user->id)}}" method="post" class="form-group">
+<form action="{{route('account.update', $account->code)}}" method="post" class="form-group">
     @method('put')
     @include('users.partials.add-edit')
     <div class="form-group">
