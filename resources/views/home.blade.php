@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
+                <div class="card-header">Dashboard </div>
                 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,17 +14,18 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    {{ Auth::user()->name }}, You are logged in! 
                     Please, choose one of the following things to do!
                 </div>
 
 
                 <div class="card-body">
-                    <a class="btn btn-default" href="{{route('user.stats')}}">Statistics</a>
-                    <a class="btn btn-default" href="{{route('account.accountsOpened')}}">View Accounts</a>
+                    <a class="btn btn-default" href="/dashboard/{{Auth::user()->id}}">Statistics</a>
+                    <a class="btn btn-default" href="/accounts/{{Auth::user()->id}}/opened">View Accounts</a>
                     <a class="btn btn-default" href="{{route('user.profile')}}">View Profile</a>
 
-                </div>                
+                </div>
+                               
             </div>
         </div>
     </div>

@@ -74,6 +74,7 @@
                 <div class="top-right links">
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ route('logout') }}">Logout</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
                         <a href="{{ route('register') }}">Register</a>
@@ -85,11 +86,7 @@
                 <div class="title m-b-md">
                     Personal Finances Assistant
                 </div>
-                <div class="number">
-                	Number of Users: <strong>{{ count($users) }}</strong><br>
-                	Number of Accounts: <strong>{{ count($accounts) }}</strong><br>
-                	Number of Movements: <strong>{{ count($movements) }}</strong>
-                </div>
+                
             </div>
         </div>
     </body>

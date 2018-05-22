@@ -40,11 +40,11 @@ Route::get('users/register', 'UserController@create')->name('users.create');
 Route::post('users/register', 'UserController@store')->name('users.store');
 
 //Ação de login
-Route::post('users/login', 'LoginController@login')->name('user.login');
+Route::post('users/login', 'LoginController@login')->name('login');
 
 
 //Update user
-Route::put('/user', 'UsersController@putUpdateUser')->name('user.update');
+Route::put('/user', 'UsersController@putUpdateUser')->name('update');
 
 //Password Reset Routes...
 Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.reset');
@@ -59,7 +59,6 @@ Route::put('/users/{user}/edit', 'UserController@update')->name('users.update');
 
 Route::delete('/users/{user}', 'UserController@destroy')->name('users.destroy');
 
-Route::get('/', 'WelcomeController@home');
 
 //Acount routes
 Route::get('accounts/{user}', 'AccountController@index')->name('accounts.index');
