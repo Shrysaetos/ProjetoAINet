@@ -4,6 +4,12 @@
     @can('create', App\Account::class)
     <a class="btn btn-primary" href="{{route('account.store')}}">Add account</a>
     @endcan
+
+    @can('listClosed', $user)
+    <a class="btn btn-default" href="{{route('user.stats')}}">List Closed Accounts</a>
+
+
+
 </div>
     @if (count($accounts)) 
     <table class="table table-striped">
@@ -46,6 +52,13 @@
                     <button type="submit" class="btn btn-xs btn-danger">Close</button>
                 </form>
                 @endcan
+
+
+                <form action="{{route('moviment.index', $account->code)}}" method="get" role="form" class="inline">
+                    @csrf
+                    <button type="submit" class="btn btn-xs btn-primary">List Moviments</button>
+                </form>
+
 
             </td>
         </tr>

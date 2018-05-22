@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Http\Requests\StoreAccountRequest;
+use App\Http\Requests\UpdateAccountRequest;
+
 use Illuminate\Http\Request;
 use App\User;
 use App\Account;
 
 class AccountController extends Controller
 {
-<<<<<<< HEAD
+
 
     public function index(User $user)
     {
@@ -39,16 +43,60 @@ class AccountController extends Controller
         $this->authorize('create', $user);
 
         $account = new Account;
-        return view('users.add', compact('account'));
+        return view('account.create', compact('account'));
     } */
 
 
-
-=======
-    public function index()
+    public function store(StoreAccountRequest $request, User $user)
     {
-        $accounts = Account::all();
-        return view('accounts.index', compact('accounts'));
+        $this->authorize('create', $user);
+
+        $data = $request->validated();
+
+        Account::create($data);
+
+        return redirect()
+            ->route('account.accountsOpened')
+            ->with('success', 'User added successfully');
     }
->>>>>>> 7423ee4406a3d8929e14e5a262ea977b048248bd
+
+
+    /**public function edit(Account $account)
+    {
+        $this->authorize('edit', $account);
+
+        return view('account.edit', compact('account'));
+    }*/
+
+
+    public function update(UpdateUserRequest $request, Account $account)
+    {
+        $this->authorize('edit', $account);
+
+        $data = $request->validated();
+
+        $account->fill($data);
+        $account->save();
+
+        return redirect()
+            ->route('account.accountsOpened')
+            ->with('success', 'User saved successfully');
+    }
+
+
+    public function delete(Account $account)
+    {
+        $this->authorize('delete', Account::class);
+
+        $account->delete();
+
+        return redirect()
+            ->route('account.accountsOpened')
+            ->with('success', 'User deleted successfully');
+    }
+
+
+
+   
+
 }

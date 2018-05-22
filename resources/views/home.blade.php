@@ -15,7 +15,16 @@
                     @endif
 
                     You are logged in!
+                    Please, choose one of the following things to do!
                 </div>
+
+
+                <div class="card-body">
+                    <a class="btn btn-default" href="{{route('user.stats')}}">Statistics</a>
+                    <a class="btn btn-default" href="{{route('account.accountsOpened')}}">View Accounts</a>
+                    <a class="btn btn-default" href="{{route('user.profile')}}">View Profile</a>
+
+                </div>                
             </div>
         </div>
     </div>

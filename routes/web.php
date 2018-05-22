@@ -22,11 +22,11 @@ Route::get('/', function () {
 //Mudar numero telefone
 
 //Mudar password
-Route::post('me/password','UserController@changePassword')->name('changePassword');
-Route::get('me/password','UserController@showChangePasswordForm')->name('changepassword');
+Route::post('me/password','UserController@changePassword')->name('user.changePassword');
+Route::get('me/password','UserController@showChangePasswordForm')->name('user.changepassword');
 
 //Ver próprio perfil
-Route::get('me/profile', 'UserController@profile')->name('profile');
+Route::get('me/profile', 'UserController@profile')->name('user.profile');
 
 //Editar foto
 Route::post('me/profile', 'UserController@update_photo')->name('user.update.photo');
@@ -40,17 +40,17 @@ Route::get('users/register', 'UserController@create')->name('users.create');
 Route::post('users/register', 'UserController@store')->name('users.store');
 
 //Ação de login
-Route::post('users/login', 'LoginController@login')->name('login');
+Route::post('users/login', 'LoginController@login')->name('user.login');
 
 
 //Update user
-Route::put('/user', 'UsersController@putUpdateUser');
+Route::put('/user', 'UsersController@putUpdateUser')->name('user.update');
 
 //Password Reset Routes...
 Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.reset');
 Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset.token');
-Route::post('password/reset', 'ResetPasswordController@reset');
+Route::post('password/reset', 'ResetPasswordController@reset') -> name('user.passwordReset');
 
 // Formulário para editar
 Route::get('/users/{user}/edit', 'UserController@edit')->name('users.edit');
