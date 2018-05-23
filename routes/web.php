@@ -39,19 +39,12 @@ Route::get('users/register', 'UserController@create')->name('users.create');
 // Acção de adicionar
 Route::post('users/register', 'UserController@store')->name('users.store');
 
-//Ação de login
-Route::post('users/login', 'LoginController@login')->name('login');
 
 
 //Update user
-Route::put('/user', 'UsersController@putUpdateUser')->name('update');
+Route::put('/user', 'UserController@putUpdateUser')->name('update');
 
 //Password Reset Routes...
-Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.reset');
-Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset.token');
-Route::post('password/reset', 'ResetPasswordController@reset') -> name('user.passwordReset');
-
 // Formulário para editar
 Route::get('/users/{user}/edit', 'UserController@edit')->name('users.edit');
 // Acção de guardar
@@ -80,7 +73,7 @@ Route::put('/account/{account}', 'AccountController@update')->name('account.upda
 //Moviment routes
 Route::get('/movements/{account}', 'MovementController@index')->name('movement.index');
 
-Route::get('/movements/{account}', 'MovementController@create')->name('movement.create');
+Route::get('/movements/{account}/create', 'MovementController@create')->name('movement.create');
 Route::post('/movements/{account}', 'MovementController@store')->name('movement.store');
 
 Route::get('/movement/{movement}', 'MovementController@edit')->name('movement.edit');

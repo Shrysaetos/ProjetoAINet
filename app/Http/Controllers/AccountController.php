@@ -19,7 +19,7 @@ class AccountController extends Controller
         $this->authorize('list', $user);
 
         $accounts = Account::withTrashed()->where('owner_id', $user->id)->get();
-        return view('accounts.list_all', compact('accounts'));
+        return view('accounts.list_all', compact('accounts', 'user'));
     }
 
     public function listOpenAccounts(User $user)
@@ -27,7 +27,7 @@ class AccountController extends Controller
         $this->authorize('list', $user);
 
         $accounts = Account::where('owner_id', $user->id)->get();
-        return view('accounts.list_opened', compact('accounts'));
+        return view('accounts.list_opened', compact('accounts', 'user'));
     }
 
 
