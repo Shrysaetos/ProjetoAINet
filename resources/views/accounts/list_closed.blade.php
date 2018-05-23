@@ -4,9 +4,9 @@
 
 @section('content')
 <div>
-    @can('create', App\Account::class)
-    <a class="btn btn-primary" href="{{route('account.store')}}">Add account</a>
-    @endcan
+
+    <a class="btn btn-primary" href="{{route('account.accountsOpened', $user->id)}}">Back to open accounts</a>  
+
 </div>
 
 
@@ -18,6 +18,7 @@
             <th>Account Type</th>
             <th>Date</th>
             <th>Created At</th>
+            <th>Code</th>
             <th>Decription</th>
             <th>Start Balance</th>
             <th>Current Balance</th>
@@ -31,6 +32,7 @@
             <td>{{ $account->formatted_type}}</td>
             <td>{{ $account->date}}</td>
             <td>{{ $account->created_at}}</td>
+            <td>{{ $account->code }} </td>
             <td>{{ $account->description}}</td>
             <td>{{ $account->start_balance}}</td>
             <td>{{ $account->current_balance}}</td>
@@ -39,7 +41,7 @@
             <td>
                 
                 @can('reopen', $account)
-                <a class="btn btn-xs btn-primary" href="{{route('account.reopen, $account->code)}}">Reopen</a>
+                <a class="btn btn-xs btn-primary" href="{{route('account.reopen', $account->code)}}">Reopen</a>
                 @endcan
 
 
@@ -50,5 +52,7 @@
 @else
     <h2>No accounts found</h2>
 @endif
+
+
 </div>
 @endsection

@@ -25,8 +25,7 @@ class StoreAccountRequest extends FormRequest
     {
         return [
             'code' => 'required|unique:accounts|regex:/^[\pL\s]+$/',
-            'date' => 'required|' /** falta verificar que é menor que a data do sistema */
-            'description' => 'max:255'
+            'date' => 'required|', /** falta verificar que é menor que a data do sistema */
 
         ];
     }

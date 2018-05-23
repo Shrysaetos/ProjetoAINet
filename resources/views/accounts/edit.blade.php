@@ -1,17 +1,17 @@
 @extends('master')
 
-@section('title', 'Edit user')
+@section('title', 'Edit Account')
 
 @section('content')
-@if ($errors->any())
+@if ($errors->count() > 0)
     @include('partials.errors')
 @endif
-<form action="{{route('account.update', $account->code)}}" method="post" class="form-group">
+<form action="{{route('account.update', $account->id)}}" method="post" class="form-group">
     @method('put')
-    @include('users.partials.add-edit')
+    @include('accounts.partials.add-edit')
     <div class="form-group">
         <button type="submit" class="btn btn-success" name="ok">Save</button>
-        <a class="btn btn-default" href="{{route('users.index')}}">Cancel</a>
+        <a class="btn btn-default" href="{{route('account.accountsOpened')}}">Cancel</a>
     </div>
 </form>
 @endsection

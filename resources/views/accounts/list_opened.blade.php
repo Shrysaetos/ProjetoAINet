@@ -4,9 +4,11 @@
 
 @section('content')
 <div>
-            @can('create', App\Account::class)
-            <a class="btn btn-primary" href="{{route('accounts.create')}}">Add Account</a>
-            @endcan
+            
+            
+            <a class="btn btn-primary" href="{{route('account.create', $user->id)}}">Add account</a>
+            
+            
 
 
             <a class="btn btn-default" href="{{route('account.accountsClosed', $user->id)}}">List Closed Accounts</a>
@@ -28,17 +30,17 @@
             @foreach ($accounts as $account)
                 <tr>
                     <td>{{ $account->code}}</td>
-                    <td>{{ $account->account_type_id}}</td>
+                    <td>{{ $account->formatted_type}}</td>
                     <td>{{ $account->date}}</td>
                     <td>{{ $account->current_balance}}</td>
                     <td>{{ $account->description}}</td>
                     <td>
                         
-                        @can('edit', $account)
-                        <a class="btn btn-xs btn-primary" href="{{route('account.update', $account->code)}}">Edit</a>
-                        @endcan
+                        
+                        <a class="btn btn-xs btn-primary" href="{{route('account.edit', $account->id)}}">Edit</a>
+                        
                         @can('delete', App\Account::class)
-                        <form action="{{route('account.delete', $account->code)}}" method="POST" role="form" class="inline">
+                        <form action="{{route('account.delete', $account->id)}}" method="POST" role="form" class="inline">
                             @method('delete')
                             @csrf
                             <button type="submit" class="btn btn-xs btn-danger">Delete</button>
@@ -47,7 +49,7 @@
 
 
                         @can('close', App\Account::class)
-                        <form action="{{route('account.close', $account->code)}}" method="POST" role="form" class="inline">
+                        <form action="{{route('account.close', $account->id)}}" method="POST" role="form" class="inline">
                         @method('patch')
                         @csrf
                         <button type="submit" class="btn btn-xs btn-danger">Close</button>
@@ -55,7 +57,7 @@
                         @endcan
 
 
-                        <form action="{{route('movement.index', $account->code)}}" method="get" role="form" class="inline">
+                        <form action="{{route('movement.index', $account->id)}}" method="get" role="form" class="inline">
                         @csrf
                         <button type="submit" class="btn btn-xs btn-primary">List Moviments</button>
                         </form>
@@ -68,5 +70,9 @@
         @else
         <h2>No accounts found</h2>
         @endif
+
+
+        <a class="btn btn-default" href="{{route('home')}}">Back to home page</a>
+
     </div>
 @endsection('content')
