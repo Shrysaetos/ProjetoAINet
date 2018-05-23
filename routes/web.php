@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('/', 'WelcomeController@home');
+
 //Mudar email
 
 //Mudar nome
