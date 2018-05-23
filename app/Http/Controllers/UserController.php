@@ -23,7 +23,6 @@ class UserController extends Controller
         $this->authorize('list', User::class);
 
         $users = User::all();
-        $count = DB::table('users')->count();
         return view('users.index', compact('users'));
     }
 
@@ -198,8 +197,8 @@ class UserController extends Controller
     return redirect()->back()->with("success","Phone changed successfully !");
     }
 
-    public function addAssociative(){
-        
+    public function showAssociates(){
+        return view('');
     }
 }
 

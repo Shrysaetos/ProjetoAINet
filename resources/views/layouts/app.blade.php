@@ -70,13 +70,13 @@
                                         @csrf
                                     </form>
 
-                                    <a class="dropdown-item" href="{{ route('user.profile') }}"
+                                    <a class="dropdown-item" href="{{ route('user.associates') }}"
                                        onclick="event.preventDefault();
-                                                     document.getElementById('profile-form').submit();">
+                                                     document.getElementById('associates-form').submit();">
                                         {{ __('My Associates') }}
                                     </a>
 
-                                    <form id="profile-form" action="{{ route('user.profile') }}" method="POST" style="display: none;">
+                                    <form id="profile-form" action="{{ route('user.associates') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>                                    
 

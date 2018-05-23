@@ -23,7 +23,6 @@
                     <a class="btn btn-default" href="/dashboard/{{Auth::user()->id}}">Statistics</a>
                     <a class="btn btn-default" href="/accounts/{{Auth::user()->id}}/opened">View Accounts</a>
                     <a class="btn btn-default" href="{{route('user.profile')}}">View Profile</a>
-                    <a class="btn btn-default" href="{{route('users.index')}}">View Associated Profiles</a>
                     <a class="btn btn-default" href="{{route('users.index')}}">View All Profiles</a>
                 </div>
                                

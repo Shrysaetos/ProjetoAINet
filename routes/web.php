@@ -29,9 +29,11 @@ Route::post('me/phone', 'UserController@changePhone')->name('user.changePhone');
 Route::get('me/password','UserController@showChangePasswordForm')->name('user.showChangePassword');
 Route::post('me/password','UserController@changePassword')->name('user.changePassword');
 
-
 //Ver próprio perfil
 Route::put('me/profile', 'UserController@profile')->name('user.profile');
+
+//Ver lista membros associados
+Route::get('me/associates', 'UserController@showAssociates')->name('user.associates');
 
 //Editar foto
 Route::post('me/profile', 'UserController@update_photo')->name('user.update.photo');
@@ -44,12 +46,19 @@ Route::get('users/register', 'UserController@create')->name('users.create');
 // Acção de adicionar
 Route::post('users/register', 'UserController@store')->name('users.store');
 
+//Ação de login
+Route::post('users/login', 'LoginController@login')->name('login');
 
 
 //Update user
 Route::put('/user', 'UserController@putUpdateUser')->name('update');
 
 //Password Reset Routes...
+Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.reset');
+Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset.token');
+Route::post('password/reset', 'ResetPasswordController@reset') -> name('user.passwordReset');
+
 // Formulário para editar
 Route::get('/users/{user}/edit', 'UserController@edit')->name('users.edit');
 // Acção de guardar
@@ -64,12 +73,10 @@ Route::get('accounts/{user}/opened', 'AccountController@listOpenAccounts')->name
 Route::get('accounts/{user}/closed', 'AccountController@listClosedAccounts')->name('account.accountsClosed');
 
 Route::delete('accounts/{account}', 'AccountController@delete')->name('account.delete');    			///////////////////////////////////
-Route::patch('accounts/{account}/close', 'AccountController@closeAccount')->name('account.close'); 		
+Route::patch('accounts/{account}/close', 'AccountController@closeAccount')->name('account.close'); 		///////////////////////////////////
 Route::patch('accounts/{account}/reopen', 'AccountController@reopenAccount')->name('account.reopen');
 
-Route::get('/account/{user}/create', 'AccountController@create')->name('account.create');
 Route::post('/account', 'AccountController@store')->name('account.store');								///////////////////////////////////
-Route::get('/account/{account}', 'AccountController@edit')->name('account.edit');
 Route::put('/account/{account}', 'AccountController@update')->name('account.update'); 					///////////////////////////////////
 
 
@@ -80,7 +87,7 @@ Route::put('/account/{account}', 'AccountController@update')->name('account.upda
 //Moviment routes
 Route::get('/movements/{account}', 'MovementController@index')->name('movement.index');
 
-Route::get('/movements/{account}/create', 'MovementController@create')->name('movement.create');
+Route::get('/movements/{account}', 'MovementController@create')->name('movement.create');
 Route::post('/movements/{account}', 'MovementController@store')->name('movement.store');
 
 Route::get('/movement/{movement}', 'MovementController@edit')->name('movement.edit');
