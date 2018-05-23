@@ -3,6 +3,8 @@
 namespace App\Policies;
 
 use App\User;
+use App\Account;
+use App\AssociateMember;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AccountPolicy
@@ -16,6 +18,15 @@ class AccountPolicy
      */
     public function __construct()
     {
-        //
+    
     }
+
+
+    public function list(User $user)
+    {
+        $userAssociateMembers = AssociateMember::where('main_user_id', $user->id)
+        if ()
+        return true;
+    }
+
 }
