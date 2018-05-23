@@ -1,10 +1,18 @@
 @extends('master')
+
+@section('title', 'List User Accounts')
+
 @section('content')
 <div>
             @can('create', App\Account::class)
             <a class="btn btn-primary" href="{{route('accounts.create')}}">Add Account</a>
             @endcan
-        </div>
+
+
+            <a class="btn btn-default" href="{{route('account.accountsClosed', $user->id)}}">List Closed Accounts</a>
+
+
+ </div>
         @if (count($accounts))
             <table class="table table-striped">
     		<thead>
@@ -25,15 +33,34 @@
                     <td>{{ $account->current_balance}}</td>
                     <td>{{ $account->description}}</td>
                     <td>
+                        
                         @can('edit', $account)
-                        <a class="btn btn-xs btn-primary" href="{{route('accounts.edit', $user->id)}}">Edit</a>
+                        <a class="btn btn-xs btn-primary" href="{{route('account.update', $account->code)}}">Edit</a>
                         @endcan
                         @can('delete', App\Account::class)
-                        <form action="{{route('accounts.destroy', $account->id)}}" method="POST" role="form" class="inline">
+                        <form action="{{route('account.delete', $account->code)}}" method="POST" role="form" class="inline">
                             @method('delete')
                             @csrf
+                            <button type="submit" class="btn btn-xs btn-danger">Delete</button>
                         </form>
                        @endcan
+
+
+                        @can('close', App\Account::class)
+                        <form action="{{route('account.close', $account->code)}}" method="POST" role="form" class="inline">
+                        @method('patch')
+                        @csrf
+                        <button type="submit" class="btn btn-xs btn-danger">Close</button>
+                        </form>
+                        @endcan
+
+
+                        <form action="{{route('movement.index', $account->code)}}" method="get" role="form" class="inline">
+                        @csrf
+                        <button type="submit" class="btn btn-xs btn-primary">List Moviments</button>
+                        </form>
+
+
                     </td>
                 </tr>
             @endforeach

@@ -1,10 +1,16 @@
 @extends('master')
+
+@section('title', 'List Closed Accounts')
+
 @section('content')
 <div>
     @can('create', App\Account::class)
     <a class="btn btn-primary" href="{{route('account.store')}}">Add account</a>
     @endcan
 </div>
+
+
+
     @if (count($accounts)) 
     <table class="table table-striped">
     <thead>
@@ -32,16 +38,10 @@
             <td>{{ $account->deleted_at}}</td>
             <td>
                 
-                @can('reopen', $user)
+                @can('reopen', $account)
                 <a class="btn btn-xs btn-primary" href="{{route('account.reopen, $account->code)}}">Reopen</a>
                 @endcan
-                @can('delete', App\Account::class)
-                <form action="{{route('account.delete', $account->code)}}" method="POST" role="form" class="inline">
-                    @method('delete')
-                    @csrf
-                    <button type="submit" class="btn btn-xs btn-danger">Delete</button>
-                </form>
-                @endcan
+
 
             </td>
         </tr>
@@ -50,4 +50,5 @@
 @else
     <h2>No accounts found</h2>
 @endif
+</div>
 @endsection

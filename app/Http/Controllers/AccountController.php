@@ -18,21 +18,24 @@ class AccountController extends Controller
     {
         $this->authorize('list', $user);
 
-        $accounts = Account::where('owner_id', $user->id);
-        return view('accounts.list.all', compact('accounts'));
+        $accounts = Account::withTrashed()->where('owner_id', $user->id)->get();
+        return view('accounts.list_all', compact('accounts'));
     }
 
     public function listOpenAccounts(User $user)
     {
-        $this->index($user);
+        $this->authorize('list', $user);
+
+        $accounts = Account::where('owner_id', $user->id)->get();
+        return view('accounts.list_opened', compact('accounts'));
     }
 
 
     public static function listClosedAccounts (User $user){
-    	$this->authorize('listClosed', $user);
+    	
 
-        $accounts = Account::onlyTrashed()->where('owner_id', $user->id);
-        return view('accounts.list.closed', compact('accounts'));
+        $accounts = Account::onlyTrashed()->where('owner_id', $user->id)->get();
+        return view('accounts.list_closed', compact('accounts'));
     }
 
     public function closeAccount (Account $account){

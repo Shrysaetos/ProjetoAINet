@@ -78,20 +78,20 @@ Route::put('/account/{account}', 'AccountController@update')->name('account.upda
 
 
 //Moviment routes
-Route::get('/movements/{account}', 'MovimentController@index')->name('moviment.index');
+Route::get('/movements/{account}', 'MovementController@index')->name('movement.index');
 
-Route::get('/movements/{account}', 'MovimentController@create')->name('moviment.create');
-Route::post('/movements/{account}', 'MovimentController@store')->name('moviment.store');
+Route::get('/movements/{account}', 'MovementController@create')->name('movement.create');
+Route::post('/movements/{account}', 'MovementController@store')->name('movement.store');
 
-Route::get('/movement/{movement}', 'MovimentController@edit')->name('moviment.edit');
-Route::post('/movement/{movement}', 'MovimentController@update')->name('moviment.update');
+Route::get('/movement/{movement}', 'MovementController@edit')->name('movement.edit');
+Route::post('/movement/{movement}', 'MovementController@update')->name('movement.update');
 
-Route::delete('/movement/{movement}', 'MovimentController@delete')->name('moviment.delete');
+Route::delete('/movement/{movement}', 'MovementController@delete')->name('movement.delete');
 
-Route::delete('/documents/{movement}', 'MovimentController@document')->name('moviment.document');
+Route::delete('/documents/{movement}', 'MovementController@document')->name('movement.document');
 
-Route::delete('/document/{document}', 'MovimentController@documentDelete')->name('moviment.documentDelete');
-Route::get('/document/{document}', 'MovimentController@documentDownload')->name('moviment.documentDownload');
+Route::delete('/document/{document}', 'MovementController@documentDelete')->name('movement.documentDelete');
+Route::get('/document/{document}', 'MovementController@documentDownload')->name('movement.documentDownload');
 
 
 

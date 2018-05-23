@@ -1,15 +1,18 @@
 @extends('master')
+
+@section('title', 'List User Accounts')
+
 @section('content')
+
 <div>
     @can('create', App\Account::class)
     <a class="btn btn-primary" href="{{route('account.store')}}">Add account</a>
     @endcan
 
-    @can('listClosed', $user)
-    <a class="btn btn-default" href="{{route('user.stats')}}">List Closed Accounts</a>
 
+    <a class="btn btn-default" href="{{route('account.accountsClosed', $user->id)}}">List Closed Accounts</a>
 
-
+    
 </div>
     @if (count($accounts)) 
     <table class="table table-striped">
@@ -17,6 +20,7 @@
         <tr>
             <th>Account Type</th>
             <th>Date</th>
+            <th>Code</th>
             <th>Created At</th>
             <th>Decription</th>
             <th>Start Balance</th>
@@ -35,7 +39,7 @@
             <td>{{ $account->current_balance}}</td>
             <td>{{ $account->last_movement_date}}</td>
             <td>
-                @can('edit', $user)
+                @can('edit', $account)
                 <a class="btn btn-xs btn-primary" href="{{route('account.update', $account->code)}}">Edit</a>
                 @endcan
                 @can('delete', App\Account::class)
@@ -54,11 +58,10 @@
                 @endcan
 
 
-                <form action="{{route('moviment.index', $account->code)}}" method="get" role="form" class="inline">
+                <form action="{{route('movement.index', $account->code)}}" method="get" role="form" class="inline">
                     @csrf
                     <button type="submit" class="btn btn-xs btn-primary">List Moviments</button>
                 </form>
-
 
             </td>
         </tr>
@@ -67,4 +70,6 @@
 @else
     <h2>No accounts found</h2>
 @endif
+</div>
+
 @endsection
