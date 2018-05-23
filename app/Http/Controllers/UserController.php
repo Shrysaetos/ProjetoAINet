@@ -129,5 +129,77 @@ class UserController extends Controller
     return redirect()->back()->with("success","Password changed successfully !");
     }
 
+    public function showChangeEmailForm(){
+        return view('auth.changeemail');
+    }
+
+    public function changeEmail(Request $request){
+ 
+        if(strcmp(Auth::user()->email, $request->get('email')) == 0){
+            //Current email and new email are same
+            return redirect()->back()->with("error","New Email cannot be same as your current email. Please choose a different email.");
+        }
+
+        $validatedData = $request->validate([
+            'email' => 'required|string|email|max:255|unique:users',
+        ]);
+ 
+        //Change Email
+        $user = Auth::user();
+        $user->email = $request->get('email');
+        $user->save();
+ 
+    return redirect()->back()->with("success","Email changed successfully !");
+    }
+
+    public function showChangeNameForm(){
+        return view('auth.changename');
+    }
+
+    public function changeName(Request $request){
+ 
+        if(strcmp(Auth::user()->name, $request->get('name')) == 0){
+            //Current name and new name are same
+            return redirect()->back()->with("error","New Name cannot be same as your current name. Please choose a different name.");
+        }
+
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+ 
+        //Change Name
+        $user = Auth::user();
+        $user->name = $request->get('name');
+        $user->save();
+ 
+    return redirect()->back()->with("success","Name changed successfully !");
+    }
+
+    public function showChangePhoneForm(){
+        return view('auth.changephone');
+    }
+
+    public function changePhone(Request $request){
+ 
+        if(strcmp(Auth::user()->phone, $request->get('phone')) == 0){
+            //Current phone and new phone are same
+            return redirect()->back()->with("error","New Phone cannot be same as your current phone. Please choose a different phone.");
+        }
+
+        $validatedData = $request->validate([
+            'phone' => 'required|min:9|max:9',
+        ]);
+ 
+        //Change Email
+        $user = Auth::user();
+        $user->phone = $request->get('phone');
+        $user->save();
+ 
+    return redirect()->back()->with("success","Phone changed successfully !");
+    }
+
+    public function addAssociative(){
+        
+    }
 }
 

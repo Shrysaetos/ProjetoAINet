@@ -11,25 +11,27 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-
 Route::get('/', 'WelcomeController@home');
 
 //Mudar email
+Route::get('me/email', 'UserController@showChangeEmailForm')->name('user.showChangeEmail');
+Route::post('me/email', 'UserController@changeEmail')->name('user.changeEmail');
 
 //Mudar nome
+Route::get('me/name', 'UserController@showChangeNameForm')->name('user.showChangeName');
+Route::post('me/name', 'UserController@changeName')->name('user.changeName');
 
 //Mudar numero telefone
+Route::get('me/phone', 'UserController@showChangePhoneForm')->name('user.showChangePhone');
+Route::post('me/phone', 'UserController@changePhone')->name('user.changePhone');
 
 //Mudar password
+Route::get('me/password','UserController@showChangePasswordForm')->name('user.showChangePassword');
 Route::post('me/password','UserController@changePassword')->name('user.changePassword');
-Route::get('me/password','UserController@showChangePasswordForm')->name('user.changepassword');
+
 
 //Ver próprio perfil
-Route::get('me/profile', 'UserController@profile')->name('user.profile');
+Route::put('me/profile', 'UserController@profile')->name('user.profile');
 
 //Editar foto
 Route::post('me/profile', 'UserController@update_photo')->name('user.update.photo');
@@ -47,7 +49,7 @@ Route::post('users/login', 'LoginController@login')->name('login');
 
 
 //Update user
-Route::put('/user', 'UsersController@putUpdateUser')->name('update');
+Route::put('/user', 'UserController@putUpdateUser')->name('update');
 
 //Password Reset Routes...
 Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.reset');
