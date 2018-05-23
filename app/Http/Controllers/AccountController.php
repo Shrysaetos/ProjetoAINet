@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateAccountRequest;
 use Illuminate\Http\Request;
 use App\User;
 use App\Account;
+use App\AccountType;
 
 class AccountController extends Controller
 {
@@ -35,11 +36,11 @@ class AccountController extends Controller
     	
 
         $accounts = Account::onlyTrashed()->where('owner_id', $user->id)->get();
-        return view('accounts.list_closed', compact('accounts'));
+        return view('accounts.list_closed', compact('accounts', 'user'));
     }
 
     public function closeAccount (Account $account){
-    	//FALTA CODIGO
+    	$account->delete();
     }
 
     public function reOpenAccount (Account $account){
@@ -47,13 +48,14 @@ class AccountController extends Controller
     }
 
 
-    /**public function create(User $user)
+    public function create(User $user)
     {
         $this->authorize('create', $user);
 
+        $account_types = AccountType::all();
         $account = new Account;
-        return view('account.create', compact('account'));
-    } */
+        return view('accounts.add', compact('account', 'account_types', 'user'));
+    } 
 
 
     public function store(StoreAccountRequest $request, User $user)
@@ -70,12 +72,13 @@ class AccountController extends Controller
     }
 
 
-    /**public function edit(Account $account)
+    public function edit(Account $account)
     {
         $this->authorize('edit', $account);
+        $account_types = AccountType::all();
 
-        return view('account.edit', compact('account'));
-    }*/
+        return view('accounts.edit', compact('account', 'account_types'));
+    }
 
 
     public function update(UpdateUserRequest $request, Account $account)

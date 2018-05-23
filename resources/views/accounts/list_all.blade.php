@@ -6,7 +6,7 @@
 
 <div>
     @can('create', App\Account::class)
-    <a class="btn btn-primary" href="{{route('account.store')}}">Add account</a>
+    <a class="btn btn-primary" href="{{route('account.create')}}">Add account</a>
     @endcan
 
 
@@ -40,17 +40,17 @@
             <td>{{ $account->last_movement_date}}</td>
             <td>
                 @can('edit', $account)
-                <a class="btn btn-xs btn-primary" href="{{route('account.update', $account->code)}}">Edit</a>
+                <a class="btn btn-xs btn-primary" href="{{route('account.edit', $account->id)}}">Edit</a>
                 @endcan
                 @can('delete', App\Account::class)
-                <form action="{{route('account.delete', $account->code)}}" method="POST" role="form" class="inline">
+                <form action="{{route('account.delete', $account->id)}}" method="POST" role="form" class="inline">
                     @method('delete')
                     @csrf
                     <button type="submit" class="btn btn-xs btn-danger">Delete</button>
                 </form>
                 @endcan
                  @can('close', App\Account::class)
-                <form action="{{route('account.close', $account->code)}}" method="POST" role="form" class="inline">
+                <form action="{{route('account.close', $account->id)}}" method="POST" role="form" class="inline">
                     @method('patch')
                     @csrf
                     <button type="submit" class="btn btn-xs btn-danger">Close</button>
@@ -58,7 +58,7 @@
                 @endcan
 
 
-                <form action="{{route('movement.index', $account->code)}}" method="get" role="form" class="inline">
+                <form action="{{route('movement.index', $account->id)}}" method="get" role="form" class="inline">
                     @csrf
                     <button type="submit" class="btn btn-xs btn-primary">List Moviments</button>
                 </form>
