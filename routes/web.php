@@ -46,8 +46,7 @@ Route::get('users/register', 'UserController@create')->name('users.create');
 // Acção de adicionar
 Route::post('users/register', 'UserController@store')->name('users.store');
 
-//Ação de login
-Route::post('users/login', 'LoginController@login')->name('login');
+
 
 
 //Update user
@@ -76,7 +75,9 @@ Route::delete('accounts/{account}', 'AccountController@delete')->name('account.d
 Route::patch('accounts/{account}/close', 'AccountController@closeAccount')->name('account.close'); 		///////////////////////////////////
 Route::patch('accounts/{account}/reopen', 'AccountController@reopenAccount')->name('account.reopen');
 
-Route::post('/account', 'AccountController@store')->name('account.store');								///////////////////////////////////
+Route::get('/account/{user}/create', 'AccountController@create')->name('account.create');
+Route::post('/account', 'AccountController@store')->name('account.store');
+Route::get('/account/{account}/edit', 'AccountController@edit')->name('account.edit');								
 Route::put('/account/{account}', 'AccountController@update')->name('account.update'); 					///////////////////////////////////
 
 
@@ -87,10 +88,10 @@ Route::put('/account/{account}', 'AccountController@update')->name('account.upda
 //Moviment routes
 Route::get('/movements/{account}', 'MovementController@index')->name('movement.index');
 
-Route::get('/movements/{account}', 'MovementController@create')->name('movement.create');
+Route::get('/movements/{account}/create', 'MovementController@create')->name('movement.create');
 Route::post('/movements/{account}', 'MovementController@store')->name('movement.store');
 
-Route::get('/movement/{movement}', 'MovementController@edit')->name('movement.edit');
+Route::get('/movement/{movement}/edit', 'MovementController@edit')->name('movement.edit');
 Route::post('/movement/{movement}', 'MovementController@update')->name('movement.update');
 
 Route::delete('/movement/{movement}', 'MovementController@delete')->name('movement.delete');
