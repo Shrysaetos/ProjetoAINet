@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Http\Requests\StoreMovementRequest;
+use App\Http\Requests\UpdateMovementRequest;
+
+
 use Illuminate\Http\Request;
 use App\Account;
 use App\Movement;
@@ -26,7 +31,7 @@ class MovementController extends Controller
     } 
 
 
-    public function store(StoreAccountRequest $request, User $user)
+    public function store(StoreMovementRequest $request, User $user)
     {
         $this->authorize('create', $user);
 
@@ -50,7 +55,7 @@ class MovementController extends Controller
     }
 
 
-    public function update(UpdateUserRequest $request, Movement $movement)
+    public function update(UpdateMovementRequest $request, Movement $movement)
     {
         $this->authorize('edit', $movement);
 
