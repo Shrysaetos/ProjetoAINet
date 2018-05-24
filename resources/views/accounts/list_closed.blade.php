@@ -10,8 +10,7 @@
 </div>
 
 
-
-    @if (count($accounts)) 
+	 @if (count($accounts)) 
     <table class="table table-striped">
     <thead>
         <tr>
@@ -55,4 +54,5 @@
 
 
 </div>
+   
 @endsection

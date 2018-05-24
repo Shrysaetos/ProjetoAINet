@@ -68,7 +68,7 @@ class AccountController extends Controller
 
         return redirect()
             ->route('account.accountsOpened')
-            ->with('success', 'User added successfully');
+            ->with('success', 'Account added successfully');
     }
 
 
@@ -92,7 +92,7 @@ class AccountController extends Controller
 
         return redirect()
             ->route('account.accountsOpened')
-            ->with('success', 'User saved successfully');
+            ->with('success', 'Account saved successfully');
     }
 
 
@@ -104,7 +104,7 @@ class AccountController extends Controller
 
         return redirect()
             ->route('account.accountsOpened')
-            ->with('success', 'User deleted successfully');
+            ->with('success', 'Account deleted successfully');
     }
 
 

@@ -6,6 +6,7 @@ use App\User;
 use App\Account;
 use App\AssociateMember;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use
 
 class AccountPolicy
 {
@@ -35,7 +36,7 @@ class AccountPolicy
         }
 
         
-        return true;
+        return false;
     }
 
     public function create(Account $account)
@@ -48,10 +49,10 @@ class AccountPolicy
     }
 
 
-    public function edit(Account $account, Account $model)
+    public function edit(Account $account)
     {
 
-        if (Auth::user()->isAccountOwner()){
+        if (Auth::user()->isAccountOwner($account)){
             return true;
         } 
 

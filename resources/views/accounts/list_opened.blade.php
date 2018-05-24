@@ -6,7 +6,7 @@
 <div>
             
             
-            <a class="btn btn-primary" href="{{route('account.create', $user->id)}}">Add account</a>
+            <a class="btn btn-primary" href="{{route('account.create')}}">Add account</a>
             
             
 
