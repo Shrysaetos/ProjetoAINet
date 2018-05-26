@@ -6,7 +6,6 @@ use App\User;
 use App\Account;
 use App\AssociateMember;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use
 
 class AccountPolicy
 {
@@ -19,52 +18,53 @@ class AccountPolicy
      */
 
 
-    public function list(Account $account)
+    public function list(User $user, Account $account)
     {
         $userAssociateMembers = AssociateMember::where('main_user_id', $user->id);
 
-        if (Auth::user()->isAccountOwner($account)){
+        if ($user->isAccountOwner($account)){
             return true;
         } else {
 
             foreach ($userAssociateMembers as $associate) {
-                if (Auth::user()->id == $associate->id){
+                if ($user->id == $associate->id){
                     return true;
                  }
             }
 
         }
-
         
         return false;
     }
 
-    public function create(Account $account)
-    {
-        if (Auth::user()->isAccountOwner($account)){
-            return true;
-        }
-
-        return false;
-    }
 
 
-    public function edit(Account $account)
+
+    public function edit(User $user, Account $account)
     {
 
-        if (Auth::user()->isAccountOwner($account)){
+        if ($user->isAccountOwner($account)){
             return true;
         } 
 
         return false;
     }
 
-    public function delete(Account $account)
+    public function delete(User $user, Account $account)
     {
-        if (is_null($account->last_movement_date) || $account->trashed() && Auth::user()->isAccountOwner()){
+        if (is_null($account->last_movement_date) || $account->trashed() && $user->isAccountOwner()){
             return true;
         }
         return false;
     }
+
+
+    public function close(User $user, Account $account){
+        if ($user->isAccountOwner($account)){
+            return true;
+        } 
+
+    }
+
 
 }

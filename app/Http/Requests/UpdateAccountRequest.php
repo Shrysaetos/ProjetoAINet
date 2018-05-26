@@ -25,8 +25,8 @@ class UpdateAccountRequest extends FormRequest
     {
         $account = \Route::current()->parameter('account');
         return [
-            'code' => 'required|unique:accounts, code'.$account->code'|regex:/^[\pL\s]+$/',
-            'date' => 'required|' /** falta verificar que é menor que a data do sistema */
+            'code' => 'required|regex:/^[\pL\s]+$/|unique:accounts,code,'.$account->code,
+            'date' => 'required|', /** falta verificar que é menor que a data do sistema */
             'description' => 'max:255'
         ];
     }
