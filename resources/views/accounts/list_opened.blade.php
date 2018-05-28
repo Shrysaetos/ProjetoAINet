@@ -5,9 +5,9 @@
 @section('content')
 <div>
             
-            
-            <a class="btn btn-primary" href="{{route('account.create', $user->id)}}">Add account</a>
-            
+            @can('createAccount', $user)
+            <a class="btn btn-primary" href="{{route('account.create')}}">Add account</a>
+            @endcan
             
 
 
@@ -37,9 +37,11 @@
                     <td>
                         
                         
+                        @can('edit', $account)
                         <a class="btn btn-xs btn-primary" href="{{route('account.edit', $account->id)}}">Edit</a>
+                        @endcan
                         
-                        @can('delete', App\Account::class)
+                        @can('delete', $account)
                         <form action="{{route('account.delete', $account->id)}}" method="POST" role="form" class="inline">
                             @method('delete')
                             @csrf
@@ -48,7 +50,7 @@
                        @endcan
 
 
-                        @can('close', App\Account::class)
+                        @can('close', $account)
                         <form action="{{route('account.close', $account->id)}}" method="POST" role="form" class="inline">
                         @method('patch')
                         @csrf

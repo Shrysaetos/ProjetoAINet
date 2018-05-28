@@ -36,4 +36,13 @@ class UserPolicy
     {
         return false;
     }
+
+
+    public function createAccount (User $user, User $requester){
+
+        return $user->id == $requester->id;
+
+
+    }
+
 }

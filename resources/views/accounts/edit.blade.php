@@ -11,7 +11,7 @@
     @include('accounts.partials.add-edit')
     <div class="form-group">
         <button type="submit" class="btn btn-success" name="ok">Save</button>
-        <a class="btn btn-default" href="{{route('account.accountsOpened')}}">Cancel</a>
+        <a class="btn btn-default" href="{{route('account.accountsOpened', $account->owner_id)}}">Cancel</a>
     </div>
 </form>
 @endsection

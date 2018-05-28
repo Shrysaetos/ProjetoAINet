@@ -55,4 +55,13 @@ class User extends Authenticatable
     {
         $this->notify(new MailResetPasswordToken($token));
     }
+
+
+    public function isAccountOwner (Account $account){
+        if ($this->id == $account->owner_id){
+            return true;
+        }
+
+        return false;
+    }
 }

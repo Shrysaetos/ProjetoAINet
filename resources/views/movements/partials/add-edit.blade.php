@@ -4,8 +4,10 @@
     <label for="inputMovimentCategory">Moviment Category</label>
     <select name="moviment_category_id" id="inputMovimentCategory" class="form-control">
         <option disabled selected> -- select an option -- </option>
-        <!--A alterar!!!!!!!-->
-        <option {{is_selected(old('type', $user->type), '0')}} value="0">Administrator</option>
+        
+         @foreach ($movement_categories as $category)
+        <option> {{$category->name}}</option>
+        @endforeach
     </select>
 </div>
 

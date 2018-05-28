@@ -34,6 +34,7 @@ class AccountController extends Controller
 
     public static function listClosedAccounts (User $user){
     	
+        
 
         $accounts = Account::onlyTrashed()->where('owner_id', $user->id)->get();
         return view('accounts.list_closed', compact('accounts', 'user'));
@@ -50,8 +51,6 @@ class AccountController extends Controller
 
     public function create(User $user)
     {
-        $this->authorize('create', $user);
-
         $account_types = AccountType::all();
         $account = new Account;
         return view('accounts.add', compact('account', 'account_types', 'user'));
@@ -60,7 +59,7 @@ class AccountController extends Controller
 
     public function store(StoreAccountRequest $request, User $user)
     {
-        $this->authorize('create', $user);
+        
 
         $data = $request->validated();
 
@@ -68,7 +67,7 @@ class AccountController extends Controller
 
         return redirect()
             ->route('account.accountsOpened')
-            ->with('success', 'User added successfully');
+            ->with('success', 'Account added successfully');
     }
 
 
@@ -81,7 +80,7 @@ class AccountController extends Controller
     }
 
 
-    public function update(UpdateUserRequest $request, Account $account)
+    public function update(UpdateAccountRequest $request, Account $account)
     {
         $this->authorize('edit', $account);
 
@@ -92,7 +91,7 @@ class AccountController extends Controller
 
         return redirect()
             ->route('account.accountsOpened')
-            ->with('success', 'User saved successfully');
+            ->with('success', 'Account saved successfully');
     }
 
 
@@ -104,7 +103,7 @@ class AccountController extends Controller
 
         return redirect()
             ->route('account.accountsOpened')
-            ->with('success', 'User deleted successfully');
+            ->with('success', 'Account deleted successfully');
     }
 
 

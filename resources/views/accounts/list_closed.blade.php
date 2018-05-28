@@ -10,8 +10,7 @@
 </div>
 
 
-
-    @if (count($accounts)) 
+	 @if (count($accounts)) 
     <table class="table table-striped">
     <thead>
         <tr>
@@ -44,6 +43,14 @@
                 <a class="btn btn-xs btn-primary" href="{{route('account.reopen', $account->code)}}">Reopen</a>
                 @endcan
 
+                 @can('delete', $account)
+                        <form action="{{route('account.delete', $account->id)}}" method="POST" role="form" class="inline">
+                            @method('delete')
+                            @csrf
+                            <button type="submit" class="btn btn-xs btn-danger">Delete</button>
+                        </form>
+                @endcan
+
 
             </td>
         </tr>
@@ -52,7 +59,6 @@
 @else
     <h2>No accounts found</h2>
 @endif
-
-
 </div>
+   
 @endsection
