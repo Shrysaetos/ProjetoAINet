@@ -35,9 +35,7 @@ class User extends Authenticatable
             case '0':
                 return 'Administrator';
             case '1':
-                return 'Publisher';
-            case '2':
-                return 'Client';
+                return 'Normal';
         }
 
         return 'Unknown';
@@ -48,19 +46,9 @@ class User extends Authenticatable
         return $this->type == '0';
     }
 
-    public function isPublisher()
+    public function isNormal()
     {
         return $this->type == '1';
-    }
-
-    public function isClient()
-    {
-        return $this->type == '2';
-    }
-
-    public function countUsers()
-    {
-        return User::count(users);
     }
 
     public function sendPasswordResetNotification($token)

@@ -1,5 +1,13 @@
 <?php
 
+if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
+// Ignores notices and reports all other kinds... and warnings
+error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+// error_reporting(E_ALL ^ E_WARNING); // Maybe this is enough
+}
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,7 +19,7 @@
 |
 */
 
-Route::get('/', 'WelcomeController@home');
+Route::get('/', 'WelcomeController@home')->name('user.home');
 
 //Mudar email
 Route::get('me/email', 'UserController@showChangeEmailForm')->name('user.showChangeEmail');
@@ -39,18 +47,18 @@ Route::get('me/associates', 'UserController@showAssociates')->name('user.associa
 Route::post('me/profile', 'UserController@update_photo')->name('user.update.photo');
 
 // Listagem
-Route::get('users', 'UserController@index')->name('users.index');
+Route::get('profiles', 'UserController@index')->name('user.index');
 
 // Formulário para adicionar
 Route::get('users/register', 'UserController@create')->name('users.create');
 // Acção de adicionar
 Route::post('users/register', 'UserController@store')->name('users.store');
 
-
-
-
 //Update user
 Route::put('/user', 'UserController@putUpdateUser')->name('update');
+
+//Procurar utilizadores
+//Route::get('profiles', 'UserController@search')->name('users.search');
 
 //Password Reset Routes...
 Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.reset');
@@ -79,9 +87,6 @@ Route::get('/account/{user}/create', 'AccountController@create')->name('account.
 Route::post('/account', 'AccountController@store')->name('account.store');
 Route::get('/account/{account}/edit', 'AccountController@edit')->name('account.edit');								
 Route::put('/account/{account}', 'AccountController@update')->name('account.update'); 					///////////////////////////////////
-
-
-
 
 
 

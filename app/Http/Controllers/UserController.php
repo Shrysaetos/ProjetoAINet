@@ -9,6 +9,7 @@ use App\User;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Image;
 
 class UserController extends Controller
@@ -95,7 +96,6 @@ class UserController extends Controller
             $user->profile_photo = $filename;
             $user->save();
         }
-
         return view('profile', array('user' => Auth::user()));
     }
 
@@ -198,7 +198,28 @@ class UserController extends Controller
     }
 
     public function showAssociates(){
-        return view('');
+        $user = Auth::user();
+        $users = User::all();
+        $id = $user->id;
+        $associate_members = DB::table('associate_members')->get();
+        foreach ($associate_members as $associate_member) {
+            if ($id = $associate_member->main_user_id){
+                $my_associates_numbers = $associate_member->associated_user_id;
+            }
+        }
+        foreach ($my_associates_numbers as $my_associate_number){
+            foreach ($users as $user) {
+                if ($user->id = $my_associate_number) {
+                    $my_associates = $user;
+                }
+            }
+        }
+        return view('associates.index', compact('my_associates'));
     }
+
+    public function addMemberToMyGroup(){
+
+    }
+
 }
 
