@@ -221,5 +221,14 @@ class UserController extends Controller
 
     }
 
+    public function search(Request $request)
+    {
+        $name = $request->input('name');
+        $users = User::where('name', 'LIKE', '%' . $name . '%')
+            ->get();
+
+    return view('users.index', compact('users'));
+    }
+
 }
 

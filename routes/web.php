@@ -47,7 +47,7 @@ Route::get('me/associates', 'UserController@showAssociates')->name('user.associa
 Route::post('me/profile', 'UserController@update_photo')->name('user.update.photo');
 
 // Listagem
-Route::get('profiles', 'UserController@index')->name('user.index');
+Route::get('profiles', 'UserController@index')->name('users.index');
 
 // Formulário para adicionar
 Route::get('users/register', 'UserController@create')->name('users.create');
@@ -58,7 +58,7 @@ Route::post('users/register', 'UserController@store')->name('users.store');
 Route::put('/user', 'UserController@putUpdateUser')->name('update');
 
 //Procurar utilizadores
-//Route::get('profiles', 'UserController@search')->name('users.search');
+Route::get('profiles', 'UserController@search')->name('users.search');
 
 //Password Reset Routes...
 Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.reset');

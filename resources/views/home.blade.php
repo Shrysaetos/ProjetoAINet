@@ -22,7 +22,7 @@
                 <div class="card-body">
                     <a class="btn btn-default" href="/dashboard/{{Auth::user()->id}}">Statistics</a>
                     <a class="btn btn-default" href="/accounts/{{Auth::user()->id}}/opened">View Accounts</a>
-                    <a class="btn btn-default" href="{{route('user.index')}}">View All Profiles</a>
+                    <a class="btn btn-default" href="/profiles">View All Profiles</a> 
                 </div>
                                
             </div>
