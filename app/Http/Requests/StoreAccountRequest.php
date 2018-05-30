@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreAccountRequest extends FormRequest
@@ -23,9 +25,15 @@ class StoreAccountRequest extends FormRequest
      */
     public function rules()
     {
+
+        $date = Carbon::now();
+
         return [
-            'code' => 'required|unique:accounts|regex:/^[\pL\s]+$/',
-            'date' => 'required|', /** falta verificar que é menor que a data do sistema */
+            'account_type_id' => 'required',
+            'code' => 'required|unique:accounts|regex:/^[A-Za-z0-9]/',
+            'date' => 'required|before_or_equal:'.$date->format('Y-m-d'),
+            'description' => 'max:255',
+            'start_balance' => 'numeric',
 
         ];
     }

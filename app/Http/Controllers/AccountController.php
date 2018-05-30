@@ -28,13 +28,12 @@ class AccountController extends Controller
         $this->authorize('list', $user);
 
         $accounts = Account::where('owner_id', $user->id)->get();
+
         return view('accounts.list_opened', compact('accounts', 'user'));
     }
 
 
     public static function listClosedAccounts (User $user){
-    	
-        
 
         $accounts = Account::onlyTrashed()->where('owner_id', $user->id)->get();
         return view('accounts.list_closed', compact('accounts', 'user'));
@@ -44,12 +43,12 @@ class AccountController extends Controller
     	$account->delete();
     }
 
-    public function reOpenAccount (Account $account){
-    	$account->restore();
+    public function reOpenAccount ($accountId){
+        $account = Account::withTrashed()->where('id', $accountId)->restore();
     }
 
 
-    public function create(User $user)
+    public function create()
     {
         $account_types = AccountType::all();
         $account = new Account;
@@ -57,16 +56,20 @@ class AccountController extends Controller
     } 
 
 
-    public function store(StoreAccountRequest $request, User $user)
+    public function store(StoreAccountRequest $request)
     {
         
 
         $data = $request->validated();
+        $data['owner_id'] = $request->user()->id;
+        $data['current_balance'] = $data['start_balance'];
+
+        
 
         Account::create($data);
 
         return redirect()
-            ->route('account.accountsOpened')
+            ->route('account.accountsOpened, $request->user()->id')
             ->with('success', 'Account added successfully');
     }
 
@@ -90,16 +93,18 @@ class AccountController extends Controller
         $account->save();
 
         return redirect()
-            ->route('account.accountsOpened')
+            ->route('account.accountsOpened, $request->user()->id')
             ->with('success', 'Account saved successfully');
     }
 
 
-    public function delete(Account $account)
+    public function delete($accountId)
     {
-        $this->authorize('delete', Account::class);
 
-        $account->delete();
+        $account = Account::withTrashed()->where('owner_id', $accountId)->get();
+        $this->authorize('delete', $account);
+
+        $account->forceDelete();
 
         return redirect()
             ->route('account.accountsOpened')

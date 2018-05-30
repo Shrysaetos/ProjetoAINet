@@ -15,7 +15,7 @@ class Account extends Model
 
 
 	protected $fillable = [
-        'account_type_id', 'date', 'code', 'description', 'start_balance',
+        'account_type_id', 'date', 'code', 'description', 'start_balance', 'owner_id', 'current_balance',
     ];
 
     /**
@@ -24,7 +24,7 @@ class Account extends Model
      * @var array
      */
     protected $hidden = [
-        'current_balance', 'last_movement_date',
+        'last_movement_date',
     ];
 
 	public function getFormattedTypeAttribute()
@@ -43,5 +43,7 @@ class Account extends Model
 
 
     protected $dates = ['deleted_at'];
+
+    public $timestamps = false;
 
 }

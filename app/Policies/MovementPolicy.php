@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class MovimentPolicy
+class MovementPolicy
 {
     use HandlesAuthorization;
 
@@ -14,8 +14,5 @@ class MovimentPolicy
      *
      * @return void
      */
-    public function __construct()
-    {
-        //
-    }
+    
 }

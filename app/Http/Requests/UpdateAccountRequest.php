@@ -4,6 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+
+use Carbon\Carbon;
+
 class UpdateAccountRequest extends FormRequest
 {
     /**
@@ -24,10 +27,16 @@ class UpdateAccountRequest extends FormRequest
     public function rules()
     {
         $account = \Route::current()->parameter('account');
+
+        $date = Carbon::now();
+
         return [
-            'code' => 'required|regex:/^[\pL\s]+$/|unique:accounts,code,'.$account->code,
-            'date' => 'required|', /** falta verificar que é menor que a data do sistema */
-            'description' => 'max:255'
+            'account_type_id' => 'required',
+            'code' => 'required|unique:accounts|regex:/^[A-Za-z0-9]/',
+            'date' => 'required|before_or_equal:'.$date->format('Y-m-d'),
+            'description' => 'max:255',
+            'start_balance' => 'numeric',
+
         ];
     }
 }
