@@ -53,7 +53,7 @@
                             <label for="new-password-confirm" class="col-md-4 control-label">Confirm New Password</label>
  
                             <div class="col-md-6">
-                                <input id="new-password-confirm" type="password" class="form-control" name="new-password_confirmation" required>
+                                <input id="new-password-confirm" type="password" class="form-control" name="new-password-confirmation" required>
                             </div>
                         </div>
  

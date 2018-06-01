@@ -13,9 +13,9 @@
             <tbody>
             @foreach ($my_associates as $my_associate)
                 <tr>
-                    <td><img src="\storage\app\public\profiles"></td>
-                    <td>{{ $my_associate->name}}</td>>
-                    <td><button type="submit" class="btn btn-xs btn-primary">Add Associate</button></td>
+                    <td><img src="\storage\app\public\profiles\{{ $my_associate->profile_photo }}"></td>
+                    <td>{{ $my_associate->name }}</td>
+                    <td><button type="submit" class="btn btn-xs btn-danger">Remove Associate</button></td>
                 </tr>
             @endforeach
             </table>

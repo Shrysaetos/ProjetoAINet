@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Http\Requests\EditUserRequest;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -19,12 +18,16 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('list', User::class);
 
         $users = User::all();
-        return view('users.index', compact('users'));
+        if(Auth::user()->admin == 0){
+            return view('users.index', compact('users'));
+        } else {
+            return view('admin.index', compact('users'));
+        }
     }
 
     public function create()
@@ -53,51 +56,53 @@ class UserController extends Controller
     {
         $this->authorize('edit', $user);
 
-        return view('users.edit', compact('user'));
+        return view('users.edit_user', compact('user'));
     }
 
     public function update(UpdateUserRequest $request, User $user)
     {
-        $this->authorize('edit', $user);
+        if ($request->hasFile('profile_photo')) {
+            $profile_photo = $request->file('profile_photo');
+            $filename = time() . '.' . $profile_photo->getClientOriginalExtension();
+            Image::make($profile_photo)->save(public_path('uploads/profiles/' . $filename));
 
-        $data = $request->validated();
+            $user->profile_photo = $filename;
+        }
 
-        $user->fill($data);
-        $user->save();
+        if(strcmp(Auth::user()->email, $request->get('email')) == 0){
+            //Current email and new email are same
+            return redirect()->back()->with("error","New Email cannot be same as your current email. Please choose a different email.");
+        }
+ 
+        if(strcmp(Auth::user()->name, $request->get('name')) == 0){
+            //Current name and new name are same
+            return redirect()->back()->with("error","New Name cannot be same as your current name. Please choose a different name.");
+        }
 
-        return redirect()
-            ->route('users.index')
-            ->with('success', 'User saved successfully');
-    }
+        if(strcmp(Auth::user()->phone, $request->get('phone')) == 0){
+            //Current phone and new phone are same
+            return redirect()->back()->with("error","New Phone cannot be same as your current phone. Please choose a different phone.");
+        }
 
-    public function destroy(User $user)
-    {
-        $this->authorize('delete', User::class);
+        $validatedData = $request->validate([
+            'email' => 'required|string|email|max:255|unique:users',
+            'name' => 'required|string|max:255',
+            'phone' => 'nullable|min:9|max:9',
+            'photo' => 'nullable|mimes:jpg,png',
+        ]);
 
-        $user->delete();
-
-        return redirect()
-            ->route('users.index')
-            ->with('success', 'User deleted successfully');
+        if(!($validatedData)){
+            return redirect()->back()->with("error","Data not valid.");
+        } else {
+            $user->save();
+        }
+        return redirect()->route('profile')->with('success', 'Profile updated successfully!');
     }
 
     public function profile(){
         return view('profile', array('user' => Auth::user()));
     }
 
-    public function update_photo(Request $request) {
-
-        if($request->hasFile('profile_photo')){
-            $profile_photo = $request->file('profile_photo');
-            $filename = time() . '.' . $profile_photo->getClientOriginalExtension();
-            Image::make($profile_photo)->resize(300, 300)->save(public_path('/uploads/profile-photos/' . $filename));
-
-            $user = Auth::user();
-            $user->profile_photo = $filename;
-            $user->save();
-        }
-        return view('profile', array('user' => Auth::user()));
-    }
 
     public function showChangePasswordForm(){
         return view('auth.changepassword');
@@ -105,7 +110,11 @@ class UserController extends Controller
 
     public function changePassword(Request $request){
  
-        if (!(Hash::check($request->get('current-password'), Auth::user()->password))) {
+        if(empty($request->input('current-password')) || empty($request->input('new-password')) || empty($request->input('new-password-confirmation'))){
+            return redirect()->back()->with("error","All of the fields must be filed.");
+        }
+
+        if (!(Hash::check($request->get('current-password'),  Auth::user()->password) && $request->get('new-password') == $request->get('new-password-confirmation'))) {
             // The passwords matches
             return redirect()->back()->with("error","Your current password does not matches with the password you provided. Please try again.");
         }
@@ -114,6 +123,7 @@ class UserController extends Controller
             //Current password and new password are same
             return redirect()->back()->with("error","New Password cannot be same as your current password. Please choose a different password.");
         }
+
  
         $validatedData = $request->validate([
             'current-password' => 'required',
@@ -128,100 +138,60 @@ class UserController extends Controller
     return redirect()->back()->with("success","Password changed successfully !");
     }
 
-    public function showChangeEmailForm(){
-        return view('auth.changeemail');
-    }
 
-    public function changeEmail(Request $request){
- 
-        if(strcmp(Auth::user()->email, $request->get('email')) == 0){
-            //Current email and new email are same
-            return redirect()->back()->with("error","New Email cannot be same as your current email. Please choose a different email.");
-        }
-
-        $validatedData = $request->validate([
-            'email' => 'required|string|email|max:255|unique:users',
-        ]);
- 
-        //Change Email
-        $user = Auth::user();
-        $user->email = $request->get('email');
-        $user->save();
- 
-    return redirect()->back()->with("success","Email changed successfully !");
-    }
-
-    public function showChangeNameForm(){
-        return view('auth.changename');
-    }
-
-    public function changeName(Request $request){
- 
-        if(strcmp(Auth::user()->name, $request->get('name')) == 0){
-            //Current name and new name are same
-            return redirect()->back()->with("error","New Name cannot be same as your current name. Please choose a different name.");
-        }
-
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
- 
-        //Change Name
-        $user = Auth::user();
-        $user->name = $request->get('name');
-        $user->save();
- 
-    return redirect()->back()->with("success","Name changed successfully !");
-    }
-
-    public function showChangePhoneForm(){
-        return view('auth.changephone');
-    }
-
-    public function changePhone(Request $request){
- 
-        if(strcmp(Auth::user()->phone, $request->get('phone')) == 0){
-            //Current phone and new phone are same
-            return redirect()->back()->with("error","New Phone cannot be same as your current phone. Please choose a different phone.");
-        }
-
-        $validatedData = $request->validate([
-            'phone' => 'required|min:9|max:9',
-        ]);
- 
-        //Change Email
-        $user = Auth::user();
-        $user->phone = $request->get('phone');
-        $user->save();
- 
-    return redirect()->back()->with("success","Phone changed successfully !");
-    }
-
-    public function showAssociates(){
-        $user = Auth::user();
-        $users = User::all();
-        $id = $user->id;
+    public static function isAssociate(User $user){
+        $me = Auth::user();
+        $his_id = $user->id;
+        $my_id = $me->id;
         $associate_members = DB::table('associate_members')->get();
-        foreach ($associate_members as $associate_member) {
-            if ($id = $associate_member->main_user_id){
-                $my_associates_numbers = $associate_member->associated_user_id;
+        foreach($associate_members as $associate_member){
+            if ($associate_member->main_user_id == $my_id && $associate_member->associated_user_id == $his_id){
+                return true;
             }
         }
-        foreach ($my_associates_numbers as $my_associate_number){
-            foreach ($users as $user) {
-                if ($user->id = $my_associate_number) {
-                    $my_associates = $user;
-                }
+        return false;
+    }    
+
+    public function showAssociates(){
+        $users = User::all();
+        foreach ($users as $user) {
+            if (self::isAssociate($user)){
+                $my_associates = $user;
             }
         }
         return view('associates.index', compact('my_associates'));
     }
 
-    public function addMemberToMyGroup(){
 
+    public function amAssociate(User $user){
+        $me = Auth::user();
+        $his_id = $user->id;
+        $my_id = $me->id;
+        $associate_members = DB::table('associate_members')->get();
+        foreach($associate_members as $associate_member){
+            if ($associate_member->main_user_id == $his_id && $associate_member->associated_user_id == $my_id){
+                return true;
+            }
+        }
+        return false;        
     }
 
-    public function search(Request $request)
+    public function showAssociatesOf(){
+        $users = User::all();
+        foreach ($users as $user) {
+            if (self::amAssociate($user)){
+                $my_associates = $user;
+            }
+        }
+        return view('associates.index_associate_of', compact('my_associates'));
+    }
+
+    public function addMemberToMyGroup(){
+        $user = Auth::user();
+        DB::table('associate_members')::create();
+    }
+
+    public static function searchNormal(Request $request)
     {
         $name = $request->input('name');
         $users = User::where('name', 'LIKE', '%' . $name . '%')
@@ -230,5 +200,69 @@ class UserController extends Controller
     return view('users.index', compact('users'));
     }
 
+    public static function searchAdmin(Request $request)
+    {
+
+        $builder = User::query();
+
+        if($request->has('name')){
+            $name = $request->input('name');
+            $builder = User::where('name', 'LIKE', '%' . $name . '%')
+                ->get();
+        } elseif ($request->has('admin')) {
+            $admin = $request->input('admin');
+            $builder = User::where('admin', '=', $admin)
+                ->get();
+        } elseif ($request->has('blocked')) {
+            $blocked = $request->input('blocked');
+            $builder = User::where('blocked', '=', $blocked)
+                ->get();
+        }
+
+        $users = $builder->orderBy('name')->paginate(5);
+
+    return view('admin.index', compact('users'));
+    }
+
+    public function blockUser(User $user){
+
+        if(Auth::user()->id != $user->id){
+            if(Auth::user()->admin == 1){
+                $user->blocked = 1;
+                $user->save();
+            }
+        }
+        return redirect()->back();
+    }
+
+    public function unblockUser(User $user){
+        if(Auth::user()->id != $user->id){
+            if(Auth::user()->admin == 1){
+                $user->blocked = 0;
+                $user->save();
+            }
+        }
+        return redirect()->back();
+    }
+
+    public function promoteUser(User $user){
+        if(Auth::user()->id != $user->id){
+            if(Auth::user()->admin == 1){
+                $user->admin = 1;
+                $user->save();
+            }
+        }
+        return back();       
+    }
+
+    public function demoteUser(User $user){
+        if(Auth::user()->id != $user->id){
+            if(Auth::user()->admin == 1){
+                $user->admin = 0;
+                $user->save();
+            }
+        }
+        return back();     
+    }
 }
 

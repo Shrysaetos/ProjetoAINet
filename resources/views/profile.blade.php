@@ -1,25 +1,45 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <img src="/storage/app/public/profiles/{{ $user->profile_photo }}" style="width:100px; height:100px; float:left; border-radius:50%; margin-right:30px">
-            <h4>{{ $user->name }}'s Profile</h4>
-            <form enctype="multipart/form-data" action="/profile" method="POST">
-                <label>Update Profile Image</label><br>
-                <input type="file" name="profile_photo"><br>
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="submit"  class="pull-right btn btn-sm btn-primary">
-                <br><br><button type="button" onclick="window.location='{{ url("me/password") }}'">Change Password</button><br>
-                <br><br><label>Current Email: {{ $user->email }}</label><br>
-                <button type="button" onclick="window.location='{{ url("me/email") }}'">Change Email</button><br>
-                <br><br><label>Current Name: {{ $user->name }}</label><br>
-                <button type="button" onclick="window.location='{{ url("me/name") }}'">Change Name</button><br>
-                <br><br><label>Current Phone Number: {{ $user->phone }}</label><br>
-                <button type="button" onclick="window.location='{{ url("me/phone") }}'">Change Phone Number</button><br>
-            </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-body" style="">
+                        <div class="row" style="margin-bottom: 20px">
+                            <div class="col-md-5 " style="text-align: center; margin:0 auto;">
+                                <img src="/uploads/profiles/{{$user->getProfilePhoto()}}" alt="profile_image"
+                                     style="width:150px;height:150px;border-radius:20%; ">
+
+                            </div>
+                            <div class="col-md-7">
+                                <h4>{{$user->name}}</h4>
+                                <div class="info">
+                                    <hr>
+                                    <ul class="perfil" style="list-style: none; margin:0; padding:0;">
+                                        <li>
+                                            <i class="glyphicon glyphicon-envelope"></i>Email:
+                                            <strong>{{$user->email}}</strong>
+                                        </li>
+                                        @if(isset($user->phone))
+                                            <li>
+                                                <i class="glyphicon glyphicon-phone"></i>Phone:
+                                                <strong>{{$user->phone}}</strong>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                    <br><br><button type="button" onclick="window.location='{{ url("me/password") }}'">Change Password</button><br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="text-align: center">
+                                <div class="col-md-3 col-md-offset-1">
+                                    <a href="{{ route('user.edit')}}" class="btn btn-primary">Edit</a>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 @endsection

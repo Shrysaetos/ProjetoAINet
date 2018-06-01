@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+@if (count($errors) > 0)
+    @include ('shared.errors');
+@endif
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -8,7 +11,7 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group row">
@@ -65,18 +68,23 @@
                             <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone Number (Optional)') }}</label>
 
                             <div class="col-md-6">
-                                <input id="phone" type="phone" class="form-control" name="phone" required>
+                                <input id="phone" type="phone" class="form-control" name="phone">
                             </div>
                         </div>
 
-                        <div class="form-group now">
-                            <label for="profile_photo" class="col-md-4 col-form-label text-md-right">{{ __('Photo (Optional)') }}</label>
+                        <div class="form-group{{ $errors->has('profile_photo') ? ' has-error' : '' }}">
+                            <label for="profile_photo" class="col-md-4 control-label">Photo (Optional)</label>
+                                <div class="input-group col-md-6">
+                                    <input type="file" name="profile_photo" id="profile_photo" class="file" style="border-radius:0; padding:10px;">
+                                    <input type="hidden" name="_token" value=" {{ csrf_token() }} ">
 
-                            <div class="col-md-6">
-                                <input type="file" name="profile_photo">
-                                <span class="custom-file-control"></span>
-                            </div>
-                            </label>
+                                    @if ($errors->has('profile_photo'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('profile_photo') }}</strong>
+                                        </span>
+                                    @endif
+                                </div>
+
                         </div>
 
                         <div class="form-group row mb-0">
@@ -84,6 +92,7 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
                                 </button>
+                                <a class="btn btn-default" href="{{route('home')}}">Cancelar</a>
                             </div>
                         </div>
                     </form>

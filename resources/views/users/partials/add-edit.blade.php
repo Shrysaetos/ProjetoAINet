@@ -1,24 +1,69 @@
 @csrf
-<div class="form-group">
-    <label for="inputFullname">Name</label>
-    <input
-        type="text" class="form-control"
-        name="name" id="inputFullname"
-        placeholder="Name" value="{{old('name', $user->name)}}" />
+<div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+    <label for="name" class="col-md-4 control-label">Name
+        <small class="required-asterisc">*</small>
+    </label>
+
+    <div class="col-md-6">
+        <input id="name" type="text" class="form-control" name="name" value="{{ old('name',$user->name) }}" required
+               autofocus placeholder="Insert name">
+
+        @if ($errors->has('name'))
+            <span class="help-block">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+        @endif
+    </div>
 </div>
-<div class="form-group">
-    <label for="inputType">Type</label>
-    <select name="type" id="inputType" class="form-control">
-        <option disabled selected> -- select an option -- </option>
-        <option {{is_selected(old('type', $user->type), '0')}} value="0">Administrator</option>
-        <option {{is_selected(old('type', $user->type), '1')}} value="1">Publisher</option>
-        <option {{is_selected(old('type', $user->type), '2')}} value="2">Client</option>
-    </select>
+
+<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+    <label for="email" class="col-md-4 control-label">Email
+        <small class="required-asterisc">*</small>
+    </label>
+
+    <div class="col-md-6">
+        <input id="email" type="email" class="form-control" placeholder="Insert email" name="email" value="{{ old('email',$user->email) }}"
+               placeholder="Insira email" required>
+
+        @if ($errors->has('email'))
+            <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+        @endif
+    </div>
 </div>
-<div class="form-group">
-    <label for="inputEmail">Email</label>
-    <input
-        type="email" class="form-control"
-        name="email" id="inputEmail"
-        placeholder="Email address" value="{{old('email', $user->email)}}"/>
+
+<div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+    <label for="phone" class="col-md-4 control-label">Phone
+        <small class="required-asterisc">*</small>
+    </label>
+
+    <div class="col-md-6">
+        <input id="phone" type="tel" class="form-control" placeholder="Insert phone" name="phone"
+               value="{{ old('phone',$user->phone) }}" required>
+
+        @if ($errors->has('phone'))
+            <span class="help-block">
+                                        <strong>{{ $errors->first('phone') }}</strong>
+                                    </span>
+        @endif
+    </div>
 </div>
+
+<div class="form-group{{ $errors->has('profile_photo') ? ' has-error' : '' }}">
+    <label for="profile_photo" class="col-md-4 control-label">Photo</label>
+    <div class="input-group col-md-6">
+        <input type="file" name="profile_photo" id="profile_photo" class="file" style="border-radius:0;
+                            padding:10px;">
+        <input type="hidden" name="_token" value=" {{ csrf_token() }} ">
+
+        @if ($errors->has('profile_photo'))
+            <span class="help-block">
+                    <strong>{{ $errors->first('profile_photo') }}</strong>
+                </span>
+        @endif
+    </div>
+
+</div>
+
+

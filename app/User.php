@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'phone', 'photo',
+        'name', 'email', 'password', 'phone', 'profile_photo', 'admin', 'blocked'
     ];
 
     /**
@@ -31,7 +31,7 @@ class User extends Authenticatable
     // formatted_type
     public function getFormattedTypeAttribute()
     {
-        switch ($this->type) {
+        switch ($this->admin) {
             case '0':
                 return 'Administrator';
             case '1':
@@ -43,12 +43,7 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->type == '0';
-    }
-
-    public function isNormal()
-    {
-        return $this->type == '1';
+        return $this->admin;
     }
 
     public function sendPasswordResetNotification($token)
@@ -61,7 +56,24 @@ class User extends Authenticatable
         if ($this->id == $account->owner_id){
             return true;
         }
-
         return false;
+    }
+
+    public static function getAllBlockedUsers()
+    {
+        return User::where('blocked', '=', 1);
+    }
+
+    public static function getAllNotBlockedUsers()
+    {
+        return User::where('blocked', '!=', 1);
+    }
+
+    public function getProfilePhoto()
+    {
+        if (isset($this->profile_photo)) {
+            return $this->profile_photo;
+        }
+        return 'default.jpg';
     }
 }

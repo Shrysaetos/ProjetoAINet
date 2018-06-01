@@ -21,33 +21,36 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 
 Route::get('/', 'WelcomeController@home')->name('user.home');
 
-//Mudar email
-Route::get('me/email', 'UserController@showChangeEmailForm')->name('user.showChangeEmail');
-Route::post('me/email', 'UserController@changeEmail')->name('user.changeEmail');
-
-//Mudar nome
-Route::get('me/name', 'UserController@showChangeNameForm')->name('user.showChangeName');
-Route::post('me/name', 'UserController@changeName')->name('user.changeName');
-
-//Mudar numero telefone
-Route::get('me/phone', 'UserController@showChangePhoneForm')->name('user.showChangePhone');
-Route::post('me/phone', 'UserController@changePhone')->name('user.changePhone');
-
 //Mudar password
 Route::get('me/password','UserController@showChangePasswordForm')->name('user.showChangePassword');
-Route::post('me/password','UserController@changePassword')->name('user.changePassword');
+Route::put('me/password','UserController@changePassword')->name('user.changePassword');
 
 //Ver próprio perfil
-Route::put('me/profile', 'UserController@profile')->name('user.profile');
+Route::get('me', 'UserController@profile')->name('user.profile');
+
+//Editar perfil
+Route::get('me/profile', 'UserController@edit')->name('user.edit');
+Route::put('me/profile', 'UserController@update')->name('user.update');
 
 //Ver lista membros associados
 Route::get('me/associates', 'UserController@showAssociates')->name('user.associates');
 
-//Editar foto
-Route::post('me/profile', 'UserController@update_photo')->name('user.update.photo');
+//Ver lista membros a que estou associado
+Route::get('me/associate-of', 'UserController@showAssociatesOf')->name('user.associatesOf');
 
 // Listagem
 Route::get('profiles', 'UserController@index')->name('users.index');
+
+//Listagem se for admin
+Route::get('users', 'UserController@index')->name('users.index.admin');
+
+//Bloquear/Desbloquear user
+Route::patch('/users/{user}/block', 'UserController@blockUser')->name('user.block')->middleware('can:block');
+Route::patch('/users/{user}/unblock', 'UserController@unblockUser')->name('user.unblock');
+
+//Promover/Demover userusers
+Route::patch('/users/{user}/promote', 'UserController@promoteUser')->name('user.promote');
+Route::patch('/users/{user}/demote', 'UserController@demoteUser')->name('user.demote');
 
 // Formulário para adicionar
 Route::get('users/register', 'UserController@create')->name('users.create');
@@ -57,8 +60,17 @@ Route::post('users/register', 'UserController@store')->name('users.store');
 //Update user
 Route::put('/user', 'UserController@putUpdateUser')->name('update');
 
-//Procurar utilizadores
-Route::get('profiles', 'UserController@search')->name('users.search');
+//Bloquear utilizador
+Route::patch('/user/{user}/block', 'UserController@blockUser')->name('users.block');
+
+//Desbloquear utilizador
+Route::patch('/user/{user}/unblock', 'UserController@unblockUser')->name('users.unblock');
+
+//Promover utilizador
+Route::patch('/user/{user}/promote', 'UserController@promoteUser')->name('users.promote');
+
+//Demover utilizador
+Route::patch('/user/{user}/demote', 'UserController@demoteUser')->name('users.demote');
 
 //Password Reset Routes...
 Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.reset');

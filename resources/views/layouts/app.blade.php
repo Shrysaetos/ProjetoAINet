@@ -66,7 +66,7 @@
                                         {{ __('Profile') }}
                                     </a>
 
-                                    <form id="profile-form" action="{{ route('user.profile') }}" method="POST" style="display: none;">
+                                    <form id="profile-form" action="{{ route('user.profile') }}" method="GET" style="display: none;">
                                         @csrf
                                     </form>
 
@@ -76,10 +76,19 @@
                                         {{ __('My Associates') }}
                                     </a>
 
-                                    <form id="profile-form" action="{{ route('user.associates') }}" method="POST" style="display: none;">
+                                    <form id="associates-form" action="{{ route('user.associates') }}" method="POST" style="display: none;">
                                         @csrf
-                                    </form>                                    
 
+                                    </form>                                    
+                                    <a class="dropdown-item" href="{{ route('user.associatesOf') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('associateOf-form').submit();">
+                                        {{ __('My Associates') }}
+                                    </a>
+
+                                    <form id="associateOf-form" action="{{ route('user.associatesOf') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>   
 
                                 </div>
 

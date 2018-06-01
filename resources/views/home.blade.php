@@ -22,7 +22,12 @@
                 <div class="card-body">
                     <a class="btn btn-default" href="/dashboard/{{Auth::user()->id}}">Statistics</a>
                     <a class="btn btn-default" href="/accounts/{{Auth::user()->id}}/opened">View Accounts</a>
-                    <a class="btn btn-default" href="/profiles">View All Profiles</a> 
+                    @if (Auth::user()->admin == 1)
+                        @include('partials.lista_admin')
+                    @endif
+                    @if (Auth::user()->admin == 0)
+                        @include('partials.lista_normal')
+                    @endif
                 </div>
                                
             </div>
