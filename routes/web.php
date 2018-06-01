@@ -23,7 +23,7 @@ Route::get('/', 'WelcomeController@home')->name('user.home');
 
 //Mudar password
 Route::get('me/password','UserController@showChangePasswordForm')->name('user.showChangePassword');
-Route::put('me/password','UserController@changePassword')->name('user.changePassword');
+Route::patch('me/password','UserController@changePassword')->name('user.changePassword');
 
 //Ver próprio perfil
 Route::get('me', 'UserController@profile')->name('user.profile');
@@ -45,7 +45,7 @@ Route::get('profiles', 'UserController@index')->name('users.index');
 Route::get('users', 'UserController@index')->name('users.index.admin');
 
 //Bloquear/Desbloquear user
-Route::patch('/users/{user}/block', 'UserController@blockUser')->name('user.block')->middleware('can:block');
+Route::patch('/users/{user}/block', 'UserController@blockUser')->name('user.block');
 Route::patch('/users/{user}/unblock', 'UserController@unblockUser')->name('user.unblock');
 
 //Promover/Demover userusers

@@ -28,8 +28,7 @@ class UserPolicy
 
     public function edit(User $user, User $model)
     {
-        return $user->isPublisher() ||
-        ($user->isClient() && $user->id == $model->id);
+        return $user->isAdmin() || $user->isClient();
     }
 
     public function delete(User $user)

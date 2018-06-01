@@ -19,8 +19,8 @@
                             </div>
                         @endif
                     <form class="form-horizontal" method="POST" action="{{ route('user.changePassword') }}">
+                        @method('patch')
                         @csrf
- 
                         <div class="form-group{{ $errors->has('current-password') ? ' has-error' : '' }}">
                             <label for="new-password" class="col-md-4 control-label">Current Password</label>
  

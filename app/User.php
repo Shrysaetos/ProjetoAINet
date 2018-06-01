@@ -43,7 +43,12 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->admin;
+        return $this->admin == 1;
+    }
+
+    public function isClient()
+    {
+        return $this->admin == 0;
     }
 
     public function sendPasswordResetNotification($token)
