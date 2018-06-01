@@ -11,12 +11,12 @@
 
 <div class="form-group">
     <label for="inputAccountType">Account Type</label>
-    <select name="type" id="inputAccountType" class="form-control">
+    <select name="account_type_id" id="inputAccountType" class="form-control">
         <option disabled selected> -- select an option -- </option>
 
 
         @foreach ($account_types as $type)
-        <option> {{$type->name}}</option>
+        <option value="{{$type->id}}"> {{$type->name}}</option>
         @endforeach
         
     </select>
@@ -32,8 +32,8 @@
     <label for="inputStartBalance">Start balance</label>
     <input
         type="number" class="form-control"
-        name="startBalance" id="inputStartBalance"
-        value="{{old('startBalance', $account->startBalance)}}"/>
+        name="start_balance" id="inputStartBalance"
+        value="{{old('start_balance', $account->startBalance)}}"/>
 </div>
 
 

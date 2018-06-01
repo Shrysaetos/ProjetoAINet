@@ -40,7 +40,12 @@
             <td>
                 
                 @can('reopen', $account)
-                <a class="btn btn-xs btn-primary" href="{{route('account.reopen', $account->code)}}">Reopen</a>
+
+                <form action="{{route('account.reopen', $account->id)}}" method="POST" role="form" class="inline">
+                            @method('patch')
+                            @csrf
+                            <button type="submit" class="btn btn-xs btn-primary">Reopen</button>
+                        </form>
                 @endcan
 
                  @can('delete', $account)

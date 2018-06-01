@@ -52,9 +52,12 @@ class AccountPolicy
 
     public function delete(User $user, Account $account)
     {
-        if (is_null($account->last_movement_date) || $account->trashed() && $user->isAccountOwner()){
+
+
+        if (is_null($account->last_movement_date) || $account->trashed() && $user->isAccountOwner($account)){
             return true;
         }
+
         return false;
     }
 
@@ -63,7 +66,17 @@ class AccountPolicy
         if ($user->isAccountOwner($account)){
             return true;
         } 
+        return false;
 
+    }
+
+    public function reopen (User $user, Account $account){
+
+        if ($user->isAccountOwner($account)){
+            return true;
+        }
+
+        return false;
     }
 
 
