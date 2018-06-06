@@ -6,7 +6,7 @@
         <option disabled selected> -- select an option -- </option>
         
          @foreach ($movement_categories as $category)
-        <option> {{$category->name}}</option>
+        <option value="{{$category->id}}"> {{$category->name}}</option>
         @endforeach
     </select>
 </div>

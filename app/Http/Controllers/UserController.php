@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\User;
+use App\Account;
+use App\Movement;
+use App\MovementCategory;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -263,5 +266,68 @@ class UserController extends Controller
         }
         return back();     
     }
+
+
+
+    public function generalStats(){
+
+        $myGrandTotal = 0;
+        $accounts = Account::all();
+        $movements = Movement::all();
+        $movement_categories = MovementCategory::all();
+
+        $percentages = array();
+        $myAccounts = array();
+        $categoryTotal = array();
+        $typeTotal = array();
+
+
+
+        //calcular valor total
+        foreach ($accounts as $account) {
+            if ($account->owner_id == Auth::user()->id){
+                $myGrandTotal = $myGrandTotal + $account->current_balance;
+                array_push($myAccounts, $account);
+            }
+        }
+
+
+        //calcular a percentagem que detem cada conta
+        foreach ($accounts as $account) {
+            if ($account->owner_id == Auth::user()->id){
+                $percentages[$account->code] = ($account->current_balance * 100)/$myGrandTotal;
+            }
+        }
+
+
+        foreach ($movements as $movement) {
+            foreach ($myAccounts as $account) {
+                if ($movement->account_id == $account->id){
+                    $categoryTotal[$movement->movement_category_id]= $categoryTotal[$movement->movement_category_id] + $movement->value;
+                }
+            }
+
+
+            foreach ($movement_categories as $category) {
+                if (array_key_exists($category->id, $categoryTotal)){
+                    $typeTotal[$category->type] = $typeTotal[$category->type] + $movement->value;
+                }
+            }
+
+        }
+
+
+        $lavaCategories = new Lavacharts();
+        $lavaCategoryType = new Lavacharts();
+
+        
+
+
+        //return 
+
+
+   }
+
+
 }
 

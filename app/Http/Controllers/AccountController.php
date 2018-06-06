@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Account;
 use App\AccountType;
+use App\Movement;
 
 class AccountController extends Controller
 {
@@ -64,6 +65,9 @@ class AccountController extends Controller
         $data['owner_id'] = $request->user()->id;
         $data['current_balance'] = $data['start_balance'];
 
+        if (!isset($data['start_balance'])){
+            $data['start_balance'] = 0;
+        }
         
 
         Account::create($data);
@@ -88,6 +92,15 @@ class AccountController extends Controller
         $this->authorize('edit', $account);
 
         $data = $request->validated();
+
+
+        if (isset($data['start_balance']){
+            if (is_null($account->last_movement_date)){
+                $account->current_balance = $data['start_balance'];
+            } else if ($data['start_balance'] != $account->start_balance){
+                Movement::recalculateMovementsBalance($account, $data['start_balance']);
+            } es
+        }
 
         $account->fill($data);
         $account->save();

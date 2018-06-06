@@ -38,6 +38,9 @@ class MovementController extends Controller
         $data = $request->validated();
 
         Movement::create($data);
+        
+
+        
 
         return redirect()
             ->route('movement.index')
@@ -80,5 +83,6 @@ class MovementController extends Controller
             ->route('movement.index')
             ->with('success', 'Movement deleted successfully');
     }
+
 
 }

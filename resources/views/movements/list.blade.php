@@ -6,9 +6,11 @@
 
 <div>
     
-    @can('create', App\Movement::class)
+    @can('create', $account)
     <a class="btn btn-primary" href="{{route('movement.create', $account->id)}}">Add account movement</a>
     @endcan
+
+    <a class="btn btn-default" href="{{route('account.accountsOpened', Auth::user()->id)}}">Back to Accounts</a>
     
     
 
@@ -48,7 +50,7 @@
                 <a class="btn btn-xs btn-primary" href="{{route('movement.edit', $movement->id)}}">Edit</a>
                 @endcan
                 
-               @can('delete', App\Movement::class) 
+               @can('delete', $movement) 
                 <form action="{{route('movement.delete', $movement->id)}}" method="POST" role="form" class="inline">
                     @method('delete')
                     @csrf

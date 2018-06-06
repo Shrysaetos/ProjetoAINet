@@ -42,6 +42,13 @@ class Account extends Model
     }
 
 
+    public function updateCurrentBalance ($value){
+        $this->current_balance = $value;
+        $this->save();
+    }
+
+
+
     protected $dates = ['deleted_at'];
 
     public $timestamps = false;
