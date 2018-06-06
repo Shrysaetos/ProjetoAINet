@@ -34,7 +34,7 @@
                         </div>
                         <div class="row" style="text-align: center">
                                 <div class="col-md-3 col-md-offset-1">
-                                    <a href="{{ route('user.edit')}}" class="btn btn-primary">Edit</a>
+                                    <a href="me/profile" class="btn btn-primary">Edit</a>
                                 </div>
                         </div>
                     </div>

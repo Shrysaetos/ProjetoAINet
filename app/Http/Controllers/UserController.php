@@ -28,7 +28,8 @@ class UserController extends Controller
         $users = User::all();
         if(Auth::user()->admin == 0){
             return view('users.index', compact('users'));
-        } else {
+        } else if (Auth::user()->admin == 0){
+
             return view('admin.index', compact('users'));
         }
     }
@@ -70,6 +71,14 @@ class UserController extends Controller
             Image::make($profile_photo)->save(public_path('uploads/profiles/' . $filename));
 
             $user->profile_photo = $filename;
+        } else {
+            if (!($request->hasFile('profile_photo'))){
+                $user->profile_photo = $user->profile_photo;
+            }
+        }
+
+        if((empty($request->input('email'))) && (empty($request->input('name'))) && (empty($request->input('phone'))) && (empty($request->input('profile_photo')))){
+            return redirect()->back()->with("error","At least one of the fields must be filed.");
         }
 
         if(strcmp(Auth::user()->email, $request->get('email')) == 0){
@@ -90,13 +99,14 @@ class UserController extends Controller
         $validatedData = $request->validate([
             'email' => 'required|string|email|max:255|unique:users',
             'name' => 'required|string|max:255',
-            'phone' => 'nullable|min:9|max:9',
+            'phone' => 'nullable|numeric|min:9|max:9',
             'photo' => 'nullable|mimes:jpg,png',
         ]);
 
         if(!($validatedData)){
             return redirect()->back()->with("error","Data not valid.");
         } else {
+
             $user->save();
         }
         return redirect()->route('profile')->with('success', 'Profile updated successfully!');
@@ -111,12 +121,8 @@ class UserController extends Controller
         return view('auth.changepassword');
     }
 
-    public function changePassword(Request $request){
+    public function changePassword(UpdateUserRequest $request){
  
-        if(empty($request->input('current-password')) || empty($request->input('new-password')) || empty($request->input('new-password-confirmation'))){
-            return redirect()->back()->with("error","All of the fields must be filed.");
-        }
-
         if (!(Hash::check($request->get('current-password'),  Auth::user()->password) && $request->get('new-password') == $request->get('new-password-confirmation'))) {
             // The passwords matches
             return redirect()->back()->with("error","Your current password does not matches with the password you provided. Please try again.");
@@ -132,12 +138,12 @@ class UserController extends Controller
             'current-password' => 'required',
             'new-password' => 'required|string|min:3|confirmed',
         ]);
- 
-        //Change Password
-        $user->password = bcrypt($request->get('new-password'));
-        $user->save();
- 
-    return redirect()->back()->with("success","Password changed successfully!");
+
+        if($validatedData == false){
+            abort();
+        } else {
+            return redirect()->back()->with("success","Password changed successfully!");
+        }
     }
 
 
@@ -228,43 +234,51 @@ class UserController extends Controller
 
     public function blockUser(User $user){
 
-        if(Auth::user()->id != $user->id){
-            if(Auth::user()->admin == 1){
-                $user->blocked = 1;
-                $user->save();
-            }
+        if(Auth::user()->id == $user->id){
+            abort(403, 'Unauthorized action');
+        } else if (Auth::user()->admin != 1){
+            abort(403, 'Unauthorized action');
+        } else {
+            $user->blocked = 1;
+            $user->save();
         }
         return redirect()->back();
     }
 
     public function unblockUser(User $user){
-        if(Auth::user()->id != $user->id){
-            if(Auth::user()->admin == 1){
-                $user->blocked = 0;
-                $user->save();
-            }
+        if(Auth::user()->id == $user->id){
+            abort(403, 'Unauthorized action');
+        } else if (Auth::user()->admin != 1){
+            abort(403, 'Unauthorized action');
+        } else {
+            $user->blocked = 0;
+            $user->save();
         }
         return redirect()->back();
     }
 
     public function promoteUser(User $user){
-        if(Auth::user()->id != $user->id){
-            if(Auth::user()->admin == 1){
-                $user->admin = 1;
-                $user->save();
-            }
+        if(Auth::user()->id == $user->id){
+            abort(403, 'Unauthorized action');
+        } else if (Auth::user()->admin != 1){
+            abort(403, 'Unauthorized action');
+        } else {
+            $user->admin = 1;
+            $user->save();
         }
-        return back();       
+        return redirect()->back();
     }
 
     public function demoteUser(User $user){
-        if(Auth::user()->id != $user->id){
-            if(Auth::user()->admin == 1){
-                $user->admin = 0;
-                $user->save();
-            }
+        if(Auth::user()->id == $user->id){
+            abort(403, 'Unauthorized action');
+        } else if (Auth::user()->admin != 1){
+            abort(403, 'Unauthorized action');
+        } else {
+            $user->admin = 0;
+            $user->save();
         }
-        return back();     
+        return redirect()->back();    
     }
 
 
