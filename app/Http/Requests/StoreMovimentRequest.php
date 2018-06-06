@@ -24,9 +24,12 @@ class StoreMovimentRequest extends FormRequest
     public function rules()
     {
         return [
-            'moviment_category_id'=>'required|between:1,13',
+            'moviment_category_id'=>'required',
             'description' => 'max:255',
-            'date' => 'required' /** falta verificar que é menor que a data do sistema */
+            'date' => 'required|before_or_equal:'.$date->format('Y-m-d'),
+            'value' => 'required|numeric',
+            //'document' => ''
+
         ];
     }
 }
