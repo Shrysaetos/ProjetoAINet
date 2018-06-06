@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\User;
+use App\AssociateMember;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy
@@ -42,6 +43,24 @@ class UserPolicy
         return $user->id == $requester->id;
 
 
+    }
+
+
+
+    public function listAccounts (User $user, User $requester){
+        if ($user->id == $requester->id){
+            return true;
+        } else {
+            $userAssociateMembers = AssociateMember::where('main_user_id', $user->id);
+            foreach ($userAssociateMembers as $associate) {
+                if ($requester->id == $associate->id){
+                    return true;
+                 }
+            }
+        }
+
+        return false;
+        
     }
 
 

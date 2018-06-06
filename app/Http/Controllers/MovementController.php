@@ -15,6 +15,13 @@ use App\User;
 
 class MovementController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function index (Account $account){
     	$movements = Movement::where('account_id', $account->id)->get();
         return view('movements.list', compact('account', 'movements'));
@@ -37,9 +44,9 @@ class MovementController extends Controller
 
         $data = $request->validated();
 
-        Movement::create($data);
+        $newMovement = Movement::create($data);
         
-
+        Movement::recalculateMovementsDate($newMovement);
         
 
         return redirect()
@@ -53,6 +60,8 @@ class MovementController extends Controller
     {
         $this->authorize('edit', $movement);
         $movement_categories = MovementCategory::all();
+
+        Movement::recalculateMovementsDate($movement);
 
         return view('movements.edit', compact('movement', 'movement_categories'));
     }

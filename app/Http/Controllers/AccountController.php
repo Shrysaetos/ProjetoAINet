@@ -16,9 +16,15 @@ class AccountController extends Controller
 {
 
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
     public function index(User $user)
     {
-        $this->authorize('list', $user);
+        $this->authorize('listAccounts', $user);
 
         $accounts = Account::withTrashed()->where('owner_id', $user->id)->get();
         return view('accounts.list_all', compact('accounts', 'user'));
@@ -26,7 +32,7 @@ class AccountController extends Controller
 
     public function listOpenAccounts(User $user)
     {
-        $this->authorize('list', $user);
+        $this->authorize('listAccounts', $user);
 
         $accounts = Account::where('owner_id', $user->id)->get();
 
@@ -36,16 +42,26 @@ class AccountController extends Controller
 
     public static function listClosedAccounts (User $user){
 
+        $this->authorize('listAccounts', $user);
+
         $accounts = Account::onlyTrashed()->where('owner_id', $user->id)->get();
         return view('accounts.list_closed', compact('accounts', 'user'));
     }
 
     public function closeAccount (Account $account){
     	$account->delete();
+
+        return redirect()
+            ->route('account.accountsOpened', $account->owner_id)
+            ->with('success', 'Account closed successfully');
     }
 
     public function reOpenAccount ($accountId){
         $account = Account::withTrashed()->where('id', $accountId)->restore();
+
+        return redirect()
+            ->route('account.accountsOpened', $account->owner_id)
+            ->with('success', 'Account reopened successfully');
     }
 
 
@@ -73,7 +89,7 @@ class AccountController extends Controller
         Account::create($data);
 
         return redirect()
-            ->route('account.accountsOpened, $request->user()->id')
+            ->route('account.accountsOpened', $request->user()->id)
             ->with('success', 'Account added successfully');
     }
 
@@ -94,19 +110,21 @@ class AccountController extends Controller
         $data = $request->validated();
 
 
-        if (isset($data['start_balance']){
+        
+
+        if (isset($data['start_balance'])) {
             if (is_null($account->last_movement_date)){
                 $account->current_balance = $data['start_balance'];
             } else if ($data['start_balance'] != $account->start_balance){
                 Movement::recalculateMovementsBalance($account, $data['start_balance']);
-            } es
+            }
         }
 
         $account->fill($data);
         $account->save();
 
         return redirect()
-            ->route('account.accountsOpened, $request->user()->id')
+            ->route('account.accountsOpened', $request->user()->id)
             ->with('success', 'Account saved successfully');
     }
 
@@ -120,7 +138,7 @@ class AccountController extends Controller
         $account->forceDelete();
 
         return redirect()
-            ->route('account.accountsOpened')
+            ->route('account.accountsOpened', $account->owner_id)
             ->with('success', 'Account deleted successfully');
     }
 

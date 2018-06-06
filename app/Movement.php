@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use App\MovementCategory;
+use App\Account;
 
 class Movement extends Model
 {
@@ -25,7 +26,7 @@ class Movement extends Model
 
     public static function recalculateMovementsBalance (Account $account, $value){
 
-        $movements = Movement::where('account_id', $account->id)->orderBy('date', 'asc')->get();
+        $accountMovements = Movement::where('account_id', $account->id)->orderBy('date', 'asc')->get();
         
         $counter = 0;
 
@@ -49,6 +50,39 @@ class Movement extends Model
             
         }
 
+    }
+
+
+
+    public static function recalculateMovementsDate (Movement $movement){
+
+        $account = Account::where('id', $movement->account_id)->firstOrFail();
+
+        $accountMovements = Movement::where('account_id', $account->id)->orderBy('date', 'asc')->get();;
+
+        $counter = 0;
+
+            //get movements after the movement date
+            foreach ($accountMovements as $accountMovement) {
+
+                //if the insert movement's date is bigger then the analised moviment's date
+                if ($movement->date > $accountMovement->date){
+                    if ($counter == 0){
+                        $movement->start_balance = $accountMovement->end_balance;
+                        $movement->end_balance = $accountMovement->end_balance + $movement->value;
+                        $movement->save();
+                        $lastMovementAltered = $movement;
+                    } else {
+                        $accountMovement->start_balance = $lastMovementAltered->end_balance;
+                        $accountMovement->end_balance = $lastMovementAltered->end_balance + $accountMovement->value;
+                        $lastMovementAltered = $accountMovement;
+                        $accountMovement->save();
+                        $account->updateCurrentBalance($accountMovement->end_balance);
+                    }
+
+                    $counter++;
+                }
+            }
     }
 
 

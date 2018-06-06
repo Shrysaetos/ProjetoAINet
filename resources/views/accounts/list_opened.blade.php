@@ -58,7 +58,7 @@
                         </form>
                         @endcan
 
-
+                        
                         <form action="{{route('movement.index', $account->id)}}" method="get" role="form" class="inline">
                         @csrf
                         <button type="submit" class="btn btn-xs btn-primary">List Moviments</button>

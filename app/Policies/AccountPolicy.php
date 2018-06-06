@@ -18,38 +18,6 @@ class AccountPolicy
      */
 
 
-    public function list(User $user, Account $account)
-    {
-        $userAssociateMembers = AssociateMember::where('main_user_id', $user->id);
-
-        if ($user->isAccountOwner($account)){
-            return true;
-        } else {
-
-            foreach ($userAssociateMembers as $associate) {
-                if ($user->id == $associate->id){
-                    return true;
-                 }
-            }
-
-        }
-        
-        return false;
-    }
-
-
-
-
-    public function edit(User $user, Account $account)
-    {
-
-        if ($user->isAccountOwner($account)){
-            return true;
-        } 
-
-        return false;
-    }
-
     public function delete(User $user, Account $account)
     {
 
@@ -62,6 +30,19 @@ class AccountPolicy
     }
 
 
+    public function edit(User $user, Account $account)
+    {
+
+        if ($user->isAccountOwner($account)){
+            return true;
+        } 
+
+        return false;
+    }
+
+
+
+
     public function close(User $user, Account $account){
         if ($user->isAccountOwner($account)){
             return true;
@@ -72,7 +53,7 @@ class AccountPolicy
 
     public function reopen (User $user, Account $account){
 
-        if ($user->isAccountOwner($account)){
+        if ($user->isAccountOwner($account) || $user->isAdmin() == 1){
             return true;
         }
 
