@@ -40,7 +40,7 @@ class AccountController extends Controller
     }
 
 
-    public static function listClosedAccounts (User $user){
+    public function listClosedAccounts (User $user){
 
         $this->authorize('listAccounts', $user);
 
@@ -132,8 +132,8 @@ class AccountController extends Controller
     public function delete($accountId)
     {
 
-        $account = Account::withTrashed()->where('owner_id', $accountId)->get();
-        $this->authorize('delete', $account);
+        $account = Account::withTrashed()->where('id', $accountId)->firstOrFail();
+        $this->authorize('deleteAccount', $account);
 
         $account->forceDelete();
 

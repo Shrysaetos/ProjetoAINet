@@ -64,6 +64,18 @@ class UserPolicy
     }
 
 
+    public function deleteAccount(User $user, User $requester, Account $account)
+    {
+
+
+        if (is_null($account->last_movement_date) || $account->trashed() && $resquester->isAccountOwner($account)){
+            return true;
+        }
+
+        return false;
+    }
+
+
     public function createMoviment (User $user, User $requester){
 
         return $user->id == $requester->id;
