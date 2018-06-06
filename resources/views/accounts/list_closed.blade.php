@@ -48,7 +48,7 @@
                         </form>
                 @endcan
 
-                 @can('delete', $account)
+                 @can('deleteAccount', $account)
                         <form action="{{route('account.delete', $account->id)}}" method="POST" role="form" class="inline">
                             @method('delete')
                             @csrf

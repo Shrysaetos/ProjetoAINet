@@ -57,9 +57,9 @@ class AccountController extends Controller
     }
 
     public function reOpenAccount ($accountId){
-        $account = Account::withTrashed()->where('id', $accountId)->restore();
+        $account = Account::withTrashed()->where('id', $accountId)->firstOrFail()->restore();      
 
-        return redirect()
+         return redirect()
             ->route('account.accountsOpened', $account->owner_id)
             ->with('success', 'Account reopened successfully');
     }
