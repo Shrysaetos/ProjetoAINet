@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAccountRequest;
 use App\Http\Requests\UpdateAccountRequest;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use App\User;
@@ -82,16 +83,15 @@ class AccountController extends Controller
 
     public function store(StoreAccountRequest $request)
     {
+
         
-        dd( $request);
         $data = $request->validated();
-        dump($data);
+        if (!isset($data['date'])){
+            $data['date'] = Carbon::now();
+        }
+        $data['date'] = date('Y-m-d');
         $data['owner_id'] = $request->user()->id;
         $data['current_balance'] = $data['start_balance'];
-
-        if (!isset($data['start_balance'])){
-            $data['start_balance'] = 0;
-        }
         
 
         Account::create($data);

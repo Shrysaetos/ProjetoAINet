@@ -32,11 +32,11 @@ class UpdateAccountRequest extends FormRequest
         $date = Carbon::now();
 
         return [
-            'account_type_id' => 'required',
-            'code' => 'required|regex:/^[A-Za-z0-9]/|unique:accounts,code,'.$account->id,
-            'date' => 'required|before_or_equal:'.$date->format('Y-m-d'),
-            'description' => 'max:255',
-            'start_balance' => 'numeric',
+            'account_type_id' => 'required|exists:account_types,id',
+            'code' => 'required|unique:accounts,code,'.$account->id,
+            'date' => 'required|date',
+            'description' => 'nullable|max:255',
+            'start_balance' => 'required|numeric',
 
         ];
     }
