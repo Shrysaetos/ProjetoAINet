@@ -26,7 +26,7 @@ class Movement extends Model
 
     public static function recalculateMovementsBalance (Account $account, $value){
 
-        $accountMovements = Movement::where('account_id', $account->id)->orderBy('date', 'asc')->get();
+        $accountMovements = Movement::where('account_id', $account->id)->orderBy('date', 'asc')->orderBy('created_at', 'asc')->get();
         
         $counter = 0;
 

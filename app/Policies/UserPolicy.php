@@ -65,13 +65,4 @@ class UserPolicy
 
 
 
-    public function createMoviment (User $user, User $requester){
-
-        return $user->id == $requester->id;
-
-
-    }
-
-
-
 }

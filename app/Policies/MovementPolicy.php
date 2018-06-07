@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\User;
 use App\Account;
-use App\AssociateMember;
 use App\Movement;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -19,7 +18,7 @@ class MovementPolicy
      */
     
 
-    public function create(User $user, Account $account)
+    public function createMovement(User $user, Account $account)
     {
         if ($user->isAccountOwner($account)){
             return true;
@@ -29,12 +28,13 @@ class MovementPolicy
     }
 
 
-    public function list(User $user, Account $account)
+    public function listMovements(User $user, Account $account)
     {
-
         if ($user->isAccountOwner($account)){
             return true;
         }  
+
+        return false;
 
 
     }

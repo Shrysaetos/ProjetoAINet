@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Validation\Rule;
 
 use Carbon\Carbon;
 
@@ -28,12 +28,11 @@ class UpdateAccountRequest extends FormRequest
     {
         $account = \Route::current()->parameter('account');
 
-
-        $date = Carbon::now();
-
         return [
             'account_type_id' => 'required|exists:account_types,id',
-            'code' => 'required|unique:accounts,code,'.$account->id,
+            'code' => ['required', Rule::unique('accounts')->where(function ($query) {
+                return $query->where('owner_id', \Auth::id());
+            })],
             'date' => 'required|date',
             'description' => 'nullable|max:255',
             'start_balance' => 'required|numeric',

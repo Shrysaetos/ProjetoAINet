@@ -84,12 +84,11 @@ class AccountController extends Controller
     public function store(StoreAccountRequest $request)
     {
 
-        
+    
         $data = $request->validated();
         if (!isset($data['date'])){
-            $data['date'] = Carbon::now();
+            $data['date'] = Carbon::now()->format('Y-m-d');
         }
-        $data['date'] = date('Y-m-d');
         $data['owner_id'] = $request->user()->id;
         $data['current_balance'] = $data['start_balance'];
         

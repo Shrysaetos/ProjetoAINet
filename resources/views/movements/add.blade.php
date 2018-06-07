@@ -14,7 +14,7 @@
 
     <div class="form-group">
         <button type="submit" class="btn btn-success" name="ok">Add</button>
-        <a class="btn btn-default" href="{{route('movements.index', $account->id)}}">Cancel</a>
+        <a class="btn btn-default" href="{{route('movement.index', $account->id)}}">Cancel</a>
     </div>
 </form>
 @endsection
