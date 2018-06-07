@@ -49,7 +49,10 @@ class AccountController extends Controller
     }
 
     public function closeAccount (Account $account){
+
+        $this->authorize('close', $account);
     	$account->delete();
+
 
         return redirect()
             ->route('account.accountsOpened', $account->owner_id)
@@ -57,7 +60,11 @@ class AccountController extends Controller
     }
 
     public function reOpenAccount ($accountId){
-        $account = Account::withTrashed()->where('id', $accountId)->firstOrFail()->restore();      
+        
+        $account = Account::withTrashed()->where('id', $accountId)->firstOrFail();   
+        $this->authorize('reopen', $account);
+
+        $account->restore();   
 
          return redirect()
             ->route('account.accountsOpened', $account->owner_id)
@@ -76,8 +83,9 @@ class AccountController extends Controller
     public function store(StoreAccountRequest $request)
     {
         
-
+        dd( $request);
         $data = $request->validated();
+        dump($data);
         $data['owner_id'] = $request->user()->id;
         $data['current_balance'] = $data['start_balance'];
 
@@ -109,7 +117,7 @@ class AccountController extends Controller
 
         $data = $request->validated();
 
-
+        
         
 
         if (isset($data['start_balance'])) {
@@ -133,7 +141,7 @@ class AccountController extends Controller
     {
 
         $account = Account::withTrashed()->where('id', $accountId)->firstOrFail();
-        $this->authorize('deleteAccount', $account);
+        $this->authorize('delete', $account);
 
         $account->forceDelete();
 

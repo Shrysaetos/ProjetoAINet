@@ -4,6 +4,7 @@
 
 @section('content')
 @if ($errors->count() > 0)
+    @dump($errors)
     @include('partials.errors')
 @endif
 

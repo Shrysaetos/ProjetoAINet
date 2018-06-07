@@ -23,6 +23,9 @@ class MovementController extends Controller
 
 
     public function index (Account $account){
+
+        $this->authorize('list', $account);
+
     	$movements = Movement::where('account_id', $account->id)->get();
         return view('movements.list', compact('account', 'movements'));
     }

@@ -29,9 +29,8 @@ class MovementPolicy
     }
 
 
-    public function list(User $user, Movement $movement)
+    public function list(User $user, Account $account)
     {
-    	$account = Account::where('id', $movement->account_id)->firstOrFail();
 
         if ($user->isAccountOwner($account)){
             return true;

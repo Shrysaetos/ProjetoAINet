@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\User;
 use App\Account;
+use App\Movement;
 use App\AssociateMember;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -30,6 +31,18 @@ class AccountPolicy
     }
 
 
+    public function delete(User $user, Account $account)
+    {
+
+        if (is_null($account->last_movement_date) || $account->trashed()){
+            if ($user->isAccountOwner($account)){
+                return true;
+            }
+
+        } 
+
+        return false;
+    }
 
 
     public function close(User $user, Account $account){
@@ -40,9 +53,10 @@ class AccountPolicy
 
     }
 
+
     public function reopen (User $user, Account $account){
 
-        if ($user->isAccountOwner($account) || $user->isAdmin() == 1){
+        if ($user->isAccountOwner($account)){
             return true;
         }
 

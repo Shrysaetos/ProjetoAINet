@@ -30,8 +30,8 @@ class StoreAccountRequest extends FormRequest
 
         return [
             'account_type_id' => 'required',
-            'code' => 'required|unique:accounts|regex:/^[A-Za-z0-9]/',
-            'date' => 'required|before_or_equal:'.$date->format('Y-m-d'),
+            'code' => 'required|unique:accounts,code|regex:/^[A-Za-z0-9]/',
+            'date' => 'required|date',//|before_or_equal:'.$date->format('Y-m-d'),
             'description' => 'max:255',
             'start_balance' => 'required|numeric',
 
