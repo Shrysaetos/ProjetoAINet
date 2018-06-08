@@ -62,9 +62,8 @@ class UserStory17Test extends BaseAccountsTest
             ->assertSessionHasNoErrors(['description', 'code', 'date', 'start_balance']);
     }
 
-            // @codingStandardsIgnoreStart
+    // @codingStandardsIgnoreStart
     /** @test */
-    
     public function account_creation_use_proper_rule_to_validate_account_type_id()
     {
         // @codingStandardsIgnoreEnd
@@ -101,8 +100,7 @@ class UserStory17Test extends BaseAccountsTest
             ->assertSessionHasNoErrors(['description', 'account_type_id', 'date', 'start_balance']);
     }
 
-
-        // @codingStandardsIgnoreStart
+    // @codingStandardsIgnoreStart
     /** @test */
     public function account_creation_fails_with_invalid_date()
     {
@@ -431,10 +429,4 @@ class UserStory17Test extends BaseAccountsTest
 
         $this->assertDatabaseHas('accounts', $data);
     }
-
-
-
-
-
-    
 }

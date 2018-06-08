@@ -46,7 +46,6 @@ class UserPolicy
     }
 
 
-
     public function listAccounts (User $user, User $requester){
         if ($user->id == $requester->id){
             return true;
@@ -61,15 +60,6 @@ class UserPolicy
 
         return false;
         
-    }
-
-
-
-    public function createMoviment (User $user, User $requester){
-
-        return $user->id == $requester->id;
-
-
     }
 
 

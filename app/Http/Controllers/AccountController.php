@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAccountRequest;
 use App\Http\Requests\UpdateAccountRequest;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
 use App\User;
@@ -82,16 +83,14 @@ class AccountController extends Controller
 
     public function store(StoreAccountRequest $request)
     {
-        
-        dd( $request);
+
+    
         $data = $request->validated();
-        dump($data);
+        if (!isset($data['date'])){
+            $data['date'] = Carbon::now()->format('Y-m-d');
+        }
         $data['owner_id'] = $request->user()->id;
         $data['current_balance'] = $data['start_balance'];
-
-        if (!isset($data['start_balance'])){
-            $data['start_balance'] = 0;
-        }
         
 
         Account::create($data);
@@ -117,15 +116,13 @@ class AccountController extends Controller
 
         $data = $request->validated();
 
-        
-        
 
-        if (isset($data['start_balance'])) {
-            if (is_null($account->last_movement_date)){
+        if (isset($data['start_balance']) && is_null($account->last_movement_date) ) {
                 $account->current_balance = $data['start_balance'];
-            } else if ($data['start_balance'] != $account->start_balance){
-                Movement::recalculateMovementsBalance($account, $data['start_balance']);
-            }
+                
+        } else if ( isset($data['start_balance']) && $data['start_balance'] != $account->start_balance){
+                $account->start_balance = $data['start_balance'];
+                Movement::recalculateMovementsBalance($account);
         }
 
         $account->fill($data);

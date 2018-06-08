@@ -81,4 +81,11 @@ class User extends Authenticatable
         }
         return 'default.jpg';
     }
+
+
+    public function accounts(){
+        return $this->hasMany(Account::class, 'owner_id', 'id');
+    }
+
+
 }

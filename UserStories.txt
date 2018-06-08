@@ -2,13 +2,13 @@
 2 - Erros no upload da foto de perfil (registo) 4F/18
 3 - COMPLETA
 4 --------------
-5 - 1F/4
-6 - 9F/14 (filtros de procura)
+5 - COMPLETA
+6 - 7F/14 (filtros de procura)
 7 - COMPLETA
 8 ---------------------
 9 - 4F/8 PASSWORDS 
 10 - 9F/20 UPDATE DADOS (parecido com US9)
-11 - 7F/10 (filtros de procura)
+11 - 1F/10 (filtros de procura) <-----------------
 12 - 3F/5
 13 - 4F/6
 29 - 9F/9

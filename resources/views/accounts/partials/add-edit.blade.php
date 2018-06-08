@@ -31,7 +31,7 @@
 <div class="form-group">
     <label for="inputStartBalance">Start balance</label>
     <input
-        type="number" class="form-control"
+        type="text" class="form-control"
         name="start_balance" id="inputStartBalance"
         value="{{old('start_balance', $account->startBalance)}}"/>
 </div>

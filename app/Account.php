@@ -42,9 +42,16 @@ class Account extends Model
     }
 
 
-    public function updateCurrentBalance ($value){
-        $this->current_balance = $value;
-        $this->save();
+    public function user(){
+        return $this->belongsTo(User::class, 'id', 'owner_id');
+    }
+
+    public function movements(){
+        return $this->hasMany(Movements::class, 'account_id', 'id');
+    }
+
+    public function type(){
+        return $this->hasOne(AccountType::class, 'id', 'account_type_id');
     }
 
 

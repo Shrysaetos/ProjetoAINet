@@ -5,6 +5,8 @@ namespace App\Http\Requests;
 use Carbon\Carbon;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
+use Illuminate\Validation\Rule;
 
 class StoreAccountRequest extends FormRequest
 {
@@ -23,16 +25,19 @@ class StoreAccountRequest extends FormRequest
      *
      * @return array
      */
+
+
     public function rules()
     {
 
-        $date = Carbon::now();
 
         return [
-            'account_type_id' => 'required',
-            'code' => 'required|unique:accounts,code|regex:/^[A-Za-z0-9]/',
-            'date' => 'required|date',//|before_or_equal:'.$date->format('Y-m-d'),
-            'description' => 'max:255',
+            'account_type_id' => 'required|exists:account_types,id',
+            'code' => ['required', Rule::unique('accounts')->where(function ($query) {
+                return $query->where('owner_id', \Auth::id());
+            })],
+            'date' => 'nullable|date',
+            'description' => 'nullable|max:255',
             'start_balance' => 'required|numeric',
 
         ];
