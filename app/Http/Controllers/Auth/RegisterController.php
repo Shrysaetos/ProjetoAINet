@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Image;
 
 class RegisterController extends Controller
 {
@@ -52,7 +53,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255|regex:/^[A-ZÀÂÇÉÈÊËÎÏÔÛÙÜŸÑÆŒa-zàâçéèêëîïôûùüÿñæœ ]+$/',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:3|confirmed',
-            'phone' => 'nullable|numeric|digits:9',
+            'phone' => 'nullable|numeric|digits:14',
             'profile_photo' => 'nullable|mimes:jpg,png',
         ]);
     }
@@ -63,15 +64,27 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
+
     protected function create(array $data)
     {
-
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => bcrypt($data['password']),
             'phone' => $data['phone'],
-            'photo' => $data['photo'],
         ]);
+
+        if (isset($data['profile_photo'])) {
+            $profile_photo = $data['profile_photo'];
+            $filename = time().'.'.$profile_photo->getClientOriginalExtension();
+            Image::make($profile_photo)->save(public_path('uploads/profiles/' . $filename));
+
+            $user->profile_photo = $filename;
+        } else {
+            $user->profile_photo = 'default.jpg';
+        }
+
+        $user->save();
+        return $user;
     }
 }

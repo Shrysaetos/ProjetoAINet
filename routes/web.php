@@ -42,7 +42,7 @@ Route::get('me/associate-of', 'UserController@showAssociatesOf')->name('user.ass
 Route::get('profiles', 'UserController@index')->name('users.index');
 
 //Listagem se for admin
-Route::get('users', 'UserController@index')->name('users.index.admin');
+Route::get('users/', 'UserController@showListForAdmins')->name('users.index.admin');
 
 //Bloquear/Desbloquear user
 Route::patch('/users/{user}/block', 'UserController@blockUser')->name('user.block');
@@ -77,6 +77,11 @@ Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->na
 Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset.token');
 Route::post('password/reset', 'ResetPasswordController@reset') -> name('user.passwordReset');
+
+//Remover do grupo de meus associados
+Route::post('me/associates', 'UserController@addMemberToMyGroup')->name('user.add.associate');
+//Adicionar ao meu grupo de associados
+Route::delete('me/associates/{user}', 'UserController@deleteMemberFromMyGroup')->name('user.delete.associate');
 
 // Formulário para editar
 Route::get('/users/{user}/edit', 'UserController@edit')->name('users.edit');

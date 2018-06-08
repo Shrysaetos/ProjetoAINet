@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('content')
-        <form action="" method="GET">
+        <form action="{{ route('users.index.admin') }}" method="GET">
         @csrf
             <div class="input-group">
             <input type="text" class="form-control" name="name"
@@ -44,7 +44,15 @@
             <tbody>
             @foreach ($users as $user)
                 <tr>
-                    <td>{{ $user->name}}</td>
+                    @if ($user->blocked == 1)
+                        <td class="user-is-blocked">{{ $user->name}}</td>
+                    @else
+                        @if ($user->admin == 1)
+                            <td class="user-is-admin">{{ $user->name}}</td>
+                        @else
+                            <td>{{ $user->name}}</td>
+                        @endif
+                    @endif
                     <td>{{ $user->email}}</td>
                     <td>{{ $user->admin}}</td>
                     <td>{{ $user->blocked}}</td>
