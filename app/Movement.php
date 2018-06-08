@@ -9,6 +9,24 @@ use App\Account;
 
 class Movement extends Model
 {
+
+
+    protected $fillable = [
+        'account_id', 'date', 'movement_category_id', 'description', 'value', 'type', 'end_balance', 'start_balance', 'document_id', 'created_at',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'id', 
+    ];
+
+
+
+
     public function getFormattedCategoryAttribute()
     {
 
@@ -24,33 +42,36 @@ class Movement extends Model
     }
 
 
-    public static function recalculateMovementsBalance (Account $account, $value){
+    public static function recalculateMovementsBalance (Account $account){
 
         $accountMovements = Movement::where('account_id', $account->id)->orderBy('date', 'asc')->orderBy('created_at', 'asc')->get();
-        
-        $counter = 0;
+        $lastBalance = $account->start_balance;
 
-        foreach ($movements as $movement) {
-            if ($counter == 0){
-                $movement->start_balance = $value;
-                $movement->end_balance = $value+$movement->value;
-                $lastMovementAltered = $movement;
+
+        foreach ($accountMovements as $movement) {
+
+                $movement->start_balance = $lastBalance;
+                
+
+                if ($movement->type == 'expense'){
+                    $movement->end_balance = (($lastBalance-$movement->value) * 100 )/100.0;
+
+
+                } else if ($movement->type == 'revenue'){
+                    $movement->end_balance = (($lastBalance+$movement->value) * 100) /100.0;
+                    
+                }
+
                 $movement->save();
-            } else {
-
-                $movement->start_balance = $lastMovementAltered->end_balance;
-                $movement->end_balance = $lastMovementAltered->end_balance+$movement->value;
-                $lastMovementAltered = $movement;
-                $movement->save();
-                $account->updateCurrentBalance($movement->end_balance);
-            }
-
-            $counter++;
-
+                $lastBalance = $movement->end_balance;
+               
+        }
+            $account->current_balance = $lastBalance;
+            $account->save();
             
         }
 
-    }
+        
 
 
 
@@ -77,8 +98,10 @@ class Movement extends Model
                         $accountMovement->end_balance = $lastMovementAltered->end_balance + $accountMovement->value;
                         $lastMovementAltered = $accountMovement;
                         $accountMovement->save();
-                        $account->updateCurrentBalance($accountMovement->end_balance);
                     }
+
+                    $account->current_balance = $movement->end_balance;
+                    $account->save();
 
                     $counter++;
                 }
@@ -88,6 +111,9 @@ class Movement extends Model
 
     
 
+    public function movementCategory (){
+        $this->hasOne(MovementCategory::class, 'id', 'movement_category_id');
+    }
 
 
 

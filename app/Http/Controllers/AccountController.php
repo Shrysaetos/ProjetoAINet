@@ -116,15 +116,13 @@ class AccountController extends Controller
 
         $data = $request->validated();
 
-        
-        
 
-        if (isset($data['start_balance'])) {
-            if (is_null($account->last_movement_date)){
+        if (isset($data['start_balance']) && is_null($account->last_movement_date) ) {
                 $account->current_balance = $data['start_balance'];
-            } else if ($data['start_balance'] != $account->start_balance){
-                Movement::recalculateMovementsBalance($account, $data['start_balance']);
-            }
+                
+        } else if ( isset($data['start_balance']) && $data['start_balance'] != $account->start_balance){
+                $account->start_balance = $data['start_balance'];
+                Movement::recalculateMovementsBalance($account);
         }
 
         $account->fill($data);

@@ -18,27 +18,6 @@ class MovementPolicy
      */
     
 
-    public function createMovement(User $user, Account $account)
-    {
-        if ($user->isAccountOwner($account)){
-            return true;
-        } 
-
-        return false;
-    }
-
-
-    public function listMovements(User $user, Account $account)
-    {
-        if ($user->isAccountOwner($account)){
-            return true;
-        }  
-
-        return false;
-
-
-    }
-
 
 
     public function edit(User $user, Movement $movement)

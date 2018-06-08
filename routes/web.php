@@ -106,7 +106,7 @@ Route::put('/account/{account}', 'AccountController@update')->name('account.upda
 Route::get('/movements/{account}', 'MovementController@index')->name('movement.index');
 
 Route::get('/movements/{account}/create', 'MovementController@create')->name('movement.create');
-Route::post('/movements/{account}', 'MovementController@store')->name('movement.store');
+Route::post('/movements/{account}/create', 'MovementController@store')->name('movement.store');
 
 Route::get('/movement/{movement}/edit', 'MovementController@edit')->name('movement.edit');
 Route::post('/movement/{movement}', 'MovementController@update')->name('movement.update');

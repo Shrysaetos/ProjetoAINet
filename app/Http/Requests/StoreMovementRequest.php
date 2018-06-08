@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreMovimentRequest extends FormRequest
+class StoreMovementRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,12 @@ class StoreMovimentRequest extends FormRequest
     public function rules()
     {
         return [
-            'moviment_category_id'=>'required',
-            'description' => 'max:255',
-            'date' => 'required|before_or_equal:'.$date->format('Y-m-d'),
-            'value' => 'required|numeric',
-            //'document' => ''
+            'movement_category_id'=>'required|exists:movement_categories,id',
+            'description' => 'nullable|max:255',
+            'date' => 'required|date',
+            'value' => 'required|numeric|min:0.1',
+            'document_file' => 'nullable|file',
+            'document_description' => 'nullable|max:255',
 
         ];
     }

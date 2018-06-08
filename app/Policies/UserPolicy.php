@@ -46,7 +46,6 @@ class UserPolicy
     }
 
 
-
     public function listAccounts (User $user, User $requester){
         if ($user->id == $requester->id){
             return true;

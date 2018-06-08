@@ -42,12 +42,6 @@ class Account extends Model
     }
 
 
-    public function updateCurrentBalance ($value){
-        $this->current_balance = $value;
-        $this->save();
-    }
-
-
     public function user(){
         return $this->belongsTo(User::class, 'id', 'owner_id');
     }

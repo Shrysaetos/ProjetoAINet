@@ -31,6 +31,30 @@ class AccountPolicy
     }
 
 
+    public function list(User $user, Account $account)
+    {
+
+        if ($user->isAccountOwner($account) && !$account->trashed()){
+            return true;
+        }  
+
+        return false;
+
+
+    }
+
+
+    public function createMovement(User $user, Account $account)
+    {
+        if ($user->isAccountOwner($account) && !$account->trashed()){
+            return true;
+        } 
+
+        return false;
+    }
+
+
+
     public function delete(User $user, Account $account)
     {
 

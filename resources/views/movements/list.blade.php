@@ -6,7 +6,7 @@
 
 <div>
     
-    @can('createMovement', $user, $account)
+    @can('createMovement', $account)
     <a class="btn btn-primary" href="{{route('movement.create', $account->id)}}">Add account movement</a>
     @endcan
 

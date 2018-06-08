@@ -8,7 +8,7 @@
 @endif
 
 
-<form action="{{route('movement.store', $account->id)}}" method="post" class="form-group">
+<form action="{{route('movement.store', $account)}}" method="post" class="form-group">
     @include('movements.partials.add-edit')
 
 
