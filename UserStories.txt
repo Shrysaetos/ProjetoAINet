@@ -1,12 +1,12 @@
 1 - COMPLETA
-2 - Erros no upload da foto de perfil (registo) 4F/18
+2 - Erros no upload da foto de perfil (registo) 4F/18 - à espera de email
 3 - COMPLETA
-4 --------------
+4 - COMPLETA
 5 - COMPLETA
-6 - 7F/14 (filtros de procura)
+6 - 7F/14 (filtros de procura) - à espera de email
 7 - COMPLETA
-8 ---------------------
-9 - 4F/8 PASSWORDS 
+8 - COMPLETA
+9 - 3F/8 PASSWORDS 
 10 - 9F/20 UPDATE DADOS (parecido com US9)
 11 - COMPLETA
 12 - 3F/5

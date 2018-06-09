@@ -12,6 +12,7 @@
                                      style="width:150px;height:150px;border-radius:20%; ">
 
                             </div>
+                            <div class="col-md-7">
                                 <h4>{{$user->name}}</h4>
                                 <div class="info">
                                     <hr>

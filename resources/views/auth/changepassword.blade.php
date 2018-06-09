@@ -21,39 +21,39 @@
                     <form class="form-horizontal" method="POST" action="{{ route('user.changePassword') }}">
                         @method('patch')
                         @csrf
-                        <div class="form-group{{ $errors->has('current-password') ? ' has-error' : '' }}">
+                        <div class="form-group{{ $errors->has('old_password') ? ' has-error' : '' }}">
                             <label for="new-password" class="col-md-4 control-label">Current Password</label>
  
                             <div class="col-md-6">
-                                <input id="current-password" type="password" class="form-control" name="current-password" required>
+                                <input id="old_password" type="password" class="form-control" name="old_password" required>
  
-                                @if ($errors->has('current-password'))
+                                @if ($errors->has('old_password'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('current-password') }}</strong>
+                                        <strong>{{ $errors->first('old_password') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
  
-                        <div class="form-group{{ $errors->has('new-password') ? ' has-error' : '' }}">
-                            <label for="new-password" class="col-md-4 control-label">New Password</label>
+                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                            <label for="password" class="col-md-4 control-label">New Password</label>
  
                             <div class="col-md-6">
-                                <input id="new-password" type="password" class="form-control" name="new-password" required>
+                                <input id="password" type="password" class="form-control" name="password" required>
  
-                                @if ($errors->has('new-password'))
+                                @if ($errors->has('password'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('new-password') }}</strong>
+                                        <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
  
                         <div class="form-group">
-                            <label for="new-password-confirm" class="col-md-4 control-label">Confirm New Password</label>
+                            <label for="password_confirmation" class="col-md-4 control-label">Confirm New Password</label>
  
                             <div class="col-md-6">
-                                <input id="new-password-confirm" type="password" class="form-control" name="new-password-confirmation" required>
+                                <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>
  

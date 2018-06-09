@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('content')
-        @if (count($my_associates))
+        @if (count($associates))
             <table class="table table-striped">
             <thead>
                 <tr>
@@ -11,11 +11,17 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach ($my_associates as $my_associate)
+            @foreach ($associates as $associate)
                 <tr>
                     <td><img src="\storage\app\public\profiles\{{ $my_associate->profile_photo }}"></td>
-                    <td>{{ $my_associate->name }}</td>
-                    <td><button type="submit" class="btn btn-xs btn-danger">Remove Associate</button></td>
+                    <td>{{ $associate->name }}</td>
+                    <td>
+                        <form id="deletemember-form" action="" method="POST" role="form" class="inline">
+                            @method('post')
+                            @csrf
+                            <button type="submit" class="btn btn-xs btn-danger">Delete Associate</button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
             </table>
