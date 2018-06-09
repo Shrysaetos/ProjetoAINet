@@ -113,15 +113,15 @@ Route::get('/movements/{account}', 'MovementController@index')->name('movement.i
 Route::get('/movements/{account}/create', 'MovementController@create')->name('movement.create');
 Route::post('/movements/{account}/create', 'MovementController@store')->name('movement.store');
 
-Route::get('/movement/{movement}/edit', 'MovementController@edit')->name('movement.edit');
-Route::post('/movement/{movement}', 'MovementController@update')->name('movement.update');
+Route::get('/movement/{movement}', 'MovementController@edit')->name('movement.edit');
+Route::put('/movement/{movement}', 'MovementController@update')->name('movement.update');
 
 Route::delete('/movement/{movement}', 'MovementController@delete')->name('movement.delete');
 
 Route::delete('/documents/{movement}', 'MovementController@document')->name('movement.document');
 
-Route::delete('/document/{document}', 'MovementController@documentDelete')->name('movement.documentDelete');
-Route::get('/document/{document}', 'MovementController@documentDownload')->name('movement.documentDownload');
+//Route::delete('/document/{document}', 'MovementController@documentDelete')->name('movement.documentDelete');
+//Route::get('/document/{document}', 'MovementController@documentDownload')->name('movement.documentDownload');
 
 
 

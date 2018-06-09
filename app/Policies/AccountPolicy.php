@@ -58,12 +58,19 @@ class AccountPolicy
     public function delete(User $user, Account $account)
     {
 
-        if (is_null($account->last_movement_date) || $account->trashed()){
+        if (Movement::where('account_id', $account->id)->exists()){
+            return false;
+        }
+        
+
+        if (is_null($account->last_movement_date) || $account->trashed() ){
             if ($user->isAccountOwner($account)){
                 return true;
             }
 
         } 
+
+
 
         return false;
     }

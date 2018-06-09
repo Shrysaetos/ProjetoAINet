@@ -37,7 +37,7 @@ class MovementPolicy
 
     	$account = Account::where('id', $movement->account_id)->firstOrFail();
 
-        if ($user->isAccountOwner($account)){
+        if ($user->isAccountOwner($account) && !$account->trashed()){
             return true;
         }
 
