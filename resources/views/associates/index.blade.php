@@ -15,7 +15,13 @@
                 <tr>
                     <td><img src="\storage\app\public\profiles\{{ $my_associate->profile_photo }}"></td>
                     <td>{{ $my_associate->name }}</td>
-                    <td><button type="submit" class="btn btn-xs btn-danger">Remove Associate</button></td>
+                    <td>
+                        <form id="deletemember-form" action="{{route('user.delete.associate', $my_associate->id)}}" method="POST" role="form" class="inline">
+                            @method('post')
+                            @csrf
+                            <button type="submit" class="btn btn-xs btn-primary">Delete Associate</button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
             </table>

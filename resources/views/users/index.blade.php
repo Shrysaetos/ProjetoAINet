@@ -3,7 +3,7 @@
 @inject('associate', 'App\Http\Controllers\UserController')
 
 @section('content')
-        <form action="{{ route('users.index') }}" enctype="multipart/form-data" action="" method="GET">
+        <form enctype="multipart/form-data" action="{{ route('users.index') }}" method="GET">
         @csrf
             <div class="input-group">
             <input type="text" class="form-control" name="name"
@@ -34,7 +34,21 @@
                         @if ($associate::isAssociate($user))
                             <span>associate</span>
                         @endif
-                    <td><button type="submit" class="btn btn-xs btn-primary">Add Associate</button></td>
+                    <td>
+                        @if ($associate::isAssociate($user))
+                        <form id="deletemember-form" action="{{route('user.delete.associate', $user->id)}}" method="POST" role="form" class="inline">
+                            @method('post')
+                            @csrf
+                            <button type="submit" class="btn btn-xs btn-primary">Delete Associate</button>
+                        </form>
+                        @else
+                            <form id="addmember-form" action="{{route('user.add.associate')}}" method="POST" role="form" class="inline">
+                            @method('post')
+                            @csrf
+                            <button type="submit" class="btn btn-xs btn-primary">Add Associate</button>
+                        </form>
+                        @endif
+                    </td>
                 </tr>
             @endforeach
             </table>

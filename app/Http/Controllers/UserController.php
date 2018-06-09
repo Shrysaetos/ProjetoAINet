@@ -202,9 +202,11 @@ class UserController extends Controller
         return view('associates.index_associate_of', compact('my_associates'));
     }
 
-    public function addMemberToMyGroup(){
-        $user = Auth::user();
-        DB::table('associate_members')::create();
+    public function addMemberToMyGroup(User $user){
+        $my_id = Auth::user()->id;
+        $his_id = $user->id;
+        $data = array('main_user_id' => $my_id, 'associated_user_id' => $his_id);
+        DB::table('associate_members')::create($data);
     }
 
     public function deleteMemberFromMyGroup(){

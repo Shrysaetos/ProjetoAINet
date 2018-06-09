@@ -1,11 +1,11 @@
 1 - COMPLETA
 2 - Erros no upload da foto de perfil (registo) 4F/18
 3 - COMPLETA
-4 --------------
+4 - COMPLETA
 5 - COMPLETA
 6 - 7F/14 (filtros de procura)
 7 - COMPLETA
-8 ---------------------
+8 - COMPLETA
 9 - 4F/8 PASSWORDS 
 10 - 9F/20 UPDATE DADOS (parecido com US9)
 11 - COMPLETA
