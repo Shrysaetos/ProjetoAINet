@@ -73,11 +73,11 @@ class MovementController extends Controller
 
 
         $data['type'] = $movementType->type;  
-        $data['created_at'] = Carbon::now();  
+        $data['created_at'] = Carbon::now(); 
         
         
-        $newMovement = Movement::create($data);
-        Movement::recalculateMovementsDate($newMovement);
+        
+        Movement::create($data);
         
 
         return redirect()
@@ -92,7 +92,7 @@ class MovementController extends Controller
         $this->authorize('edit', $movement);
         $movement_categories = MovementCategory::all();
 
-        Movement::recalculateMovementsDate($movement);
+        
 
         return view('movements.edit', compact('movement', 'movement_categories'));
     }
@@ -100,29 +100,46 @@ class MovementController extends Controller
 
     public function update(UpdateMovementRequest $request, Movement $movement)
     {
+
+        $account = Account::where('id', $movement->account_id)->firstOrFail();
+
         $this->authorize('edit', $movement);
 
+
         $data = $request->validated();
+
+
+         if(isset($data['movement_category_id']) && $data['movement_category_id'] != $movement->movement_category_id){
+            $movementType = MovementCategory::where('id', $data['movement_category_id'])->firstOrFail();
+            $data['type'] = $movementType->type;
+
+         }
 
         $movement->fill($data);
         $movement->save();
 
         return redirect()
-            ->route('movement.index')
+            ->route('movement.index', $account)
             ->with('success', 'Movement saved successfully');
     }
 
 
-    public function delete(Movement $movement)
+    public function delete($movementId)
     {
-        $this->authorize('delete', Movement::class);
+
+        $movement = Movement::where('id', $movementId)->firstOrFail();
+        $account = Account::where('id', $movement->account_id)->firstOrFail();
+
+        $this->authorize('delete', $movement);
 
         $movement->delete();
 
         return redirect()
-            ->route('movement.index')
+            ->route('movement.index', $account)
             ->with('success', 'Movement deleted successfully');
     }
+
+    
 
 
 }

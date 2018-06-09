@@ -54,11 +54,11 @@ class Movement extends Model
                 
 
                 if ($movement->type == 'expense'){
-                    $movement->end_balance = (($lastBalance-$movement->value) * 100 )/100.0;
+                    $movement->end_balance = bcmul($lastBalance-$movement->value, 100, 0)/100.0;
 
 
                 } else if ($movement->type == 'revenue'){
-                    $movement->end_balance = (($lastBalance+$movement->value) * 100) /100.0;
+                    $movement->end_balance =  bcmul($lastBalance+$movement->value, 100, 0) /100.0;
                     
                 }
 
@@ -68,6 +68,8 @@ class Movement extends Model
         }
             $account->current_balance = $lastBalance;
             $account->save();
+            
+
             
         }
 

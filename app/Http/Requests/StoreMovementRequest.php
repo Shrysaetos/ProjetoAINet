@@ -28,8 +28,8 @@ class StoreMovementRequest extends FormRequest
             'description' => 'nullable|max:255',
             'date' => 'required|date',
             'value' => 'required|numeric|min:0.1',
-            'document_file' => 'nullable|file',
-            'document_description' => 'nullable|max:255',
+            'document_file' => 'required_with:document_description|file|mimes:jpeg,png,pdf',
+            'document_description' => 'max:255|nullable',
 
         ];
     }

@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Image;
 
+use Khill\Lavacharts\Lavacharts;
+
 class UserController extends Controller
 {
     public function __construct()
