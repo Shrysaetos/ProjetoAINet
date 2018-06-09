@@ -45,4 +45,15 @@ class MovementPolicy
     }
 
 
+    public function uploadDocument (User $user, Movement $movement){
+        $account = Account::where('id', $movement->account_id)->firstOrFail();
+
+        if ($user->isAccountOwner($account)){
+            return true;
+        } 
+
+        return false;
+    }
+
+
 }
