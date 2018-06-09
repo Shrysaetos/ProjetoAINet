@@ -7,13 +7,12 @@
                 <tr>
                     <th>Photo</th>
                     <th>Name</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
             @foreach ($my_associates as $my_associate)
                 <tr>
-                    <td><img src="\storage\app\public\profiles\{{ $my_associate->profile_photo }}"></td>
+                    <td><img src="/uploads/profiles/{{$my_associate->getProfilePhoto()}}" alt="profile_image" style="width:100px; height:100px; float:left; border-radius:50%; margin-right:30px"></td>
                     <td>{{ $my_associate->name }}</td>
                 </tr>
             @endforeach

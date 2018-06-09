@@ -8,11 +8,10 @@
                     <div class="panel-body" style="">
                         <div class="row" style="margin-bottom: 20px">
                             <div class="col-md-5 " style="text-align: center; margin:0 auto;">
-                                <img src="/uploads/profiles/{{$user->getProfilePhoto()}}" alt="profile_image"
+                                <img src="{{asset('uploads/profiles/'.$user->getProfilePhoto())}}" alt="profile_image"
                                      style="width:150px;height:150px;border-radius:20%; ">
 
                             </div>
-                            <div class="col-md-7">
                                 <h4>{{$user->name}}</h4>
                                 <div class="info">
                                     <hr>
