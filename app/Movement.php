@@ -77,37 +77,60 @@ class Movement extends Model
 
 
 
-    public static function recalculateMovementsDate (Movement $movement){
+    public static function recalculatMovimentAddedOrEdited (Movement $movement){
 
         $account = Account::where('id', $movement->account_id)->firstOrFail();
 
-        $accountMovements = Movement::where('account_id', $account->id)->orderBy('date', 'asc')->get();;
+        $accountMovements = Movement::where('account_id', $account->id)->where('date', '>', $movement->date)->orderBy('date', 'asc')->orderBy('created_at', 'asc')->get();
 
-        $counter = 0;
+        $movementBefore = Movement::where('account_id', $account->id)->where('date', '<', $movement->date)->orderBy('date', 'desc')->orderBy('created_at', 'desc')->first();
 
-            //get movements after the movement date
+        
+
+        if (!is_null($movementBefore) ){
+                $movement->start_balance = $movementBefore->end_balance;
+
+                if ($movement->type == 'expense'){
+                    $movement->end_balance = bcmul($movementBefore->end_balance-$movement->value, 100, 0)/100.0;
+
+
+                } else if ($movement->type == 'revenue'){
+                    $movement->end_balance =  bcmul($movementBefore->end_balance+$movement->value, 100, 0) /100.0;
+                    
+                }
+
+        }
+
+
+
+        if (!is_null($accountMovements) ){
+
+            $lastBalance = $movement->end_balance;
+
             foreach ($accountMovements as $accountMovement) {
 
-                //if the insert movement's date is bigger then the analised moviment's date
-                if ($movement->date > $accountMovement->date){
-                    if ($counter == 0){
-                        $movement->start_balance = $accountMovement->end_balance;
-                        $movement->end_balance = $accountMovement->end_balance + $movement->value;
-                        $movement->save();
-                        $lastMovementAltered = $movement;
-                    } else {
-                        $accountMovement->start_balance = $lastMovementAltered->end_balance;
-                        $accountMovement->end_balance = $lastMovementAltered->end_balance + $accountMovement->value;
-                        $lastMovementAltered = $accountMovement;
-                        $accountMovement->save();
-                    }
+                $accountMovement->start_balance = $lastBalance;
+                
+                if ($accountMovement->type == 'expense'){
+                    $accountMovement->end_balance = bcmul($lastBalance-$accountMovement->value, 100, 0)/100.0;
 
-                    $account->current_balance = $movement->end_balance;
-                    $account->save();
 
-                    $counter++;
+                } else if ($accountMovement->type == 'revenue'){
+                    
+                    $accountMovement->end_balance =  bcmul($lastBalance+$accountMovement->value, 100, 0) /100.0;
+                    
+                }
+
+                 $lastBalance = $accountMovement->end_balance;
+                 $accountMovement->save();
+
+
+                $account->current_balance = $accountMovement->end_balance;
+                $account->save();
+
                 }
             }
+            
     }
 
 

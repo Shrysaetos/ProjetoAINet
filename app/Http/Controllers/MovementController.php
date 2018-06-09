@@ -50,7 +50,6 @@ class MovementController extends Controller
     {
 
 
-
         $this->authorize('createMovement', $account);
 
 
@@ -71,13 +70,41 @@ class MovementController extends Controller
 
         }  
 
-
         $data['type'] = $movementType->type;  
-        $data['created_at'] = Carbon::now(); 
+        $data['created_at'] = Carbon::now();
+
+        $newMovement = Movement::create($data);
+
+        Movement::recalculatMovimentAddedOrEdited($newMovement);
+
+        if(isset($data['document_file'])){
+            $extention = \File::extension($data['document_file']->getClientOriginalName());
+            $file_name = $data['document_file']->getClientOriginalName();
+            if($extention == "jpg"){
+                $extention = "jpeg";
+                $file_name = str_replace(".jpg", ".jpeg", $file_name);
+            }
+
+            $document = array(
+                "created_at" => Carbon::now(),
+                "description" => $data['document_description'],
+                "original_name" => $file_name,
+                "type" => $extention,
+            );
+
+            $newDocument = Document::create($document);
+
+            $data['document_file']->storeAs("documents/{$account->id}", "{$new_mov->id}.{$extention}");
+
+            $newMovement->document_id=$newDocument->id;
+            $newMovement->save();
+
+        }         
         
         
         
-        Movement::create($data);
+
+
         
 
         return redirect()
@@ -116,6 +143,10 @@ class MovementController extends Controller
          }
 
         $movement->fill($data);
+
+
+        Movement::recalculatMovimentAddedOrEdited($movement);
+
         $movement->save();
 
         return redirect()
