@@ -22,8 +22,8 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 Route::get('/', 'WelcomeController@home')->name('user.home');
 
 //Mudar password
-Route::get('me/password','UserController@showChangePasswordForm')->name('user.showChangePassword');
-Route::patch('me/password','UserController@changePassword')->name('user.changePassword');
+Route::get('me/password','Auth\UpdatePasswordController@index')->name('user.showChangePassword');
+Route::patch('me/password','Auth\UpdatePasswordController@update')->name('user.changePassword');
 
 //Ver próprio perfil
 Route::get('me', 'UserController@profile')->name('user.profile');
@@ -79,9 +79,9 @@ Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->n
 Route::post('password/reset', 'ResetPasswordController@reset') -> name('user.passwordReset');
 
 //Remover do grupo de meus associados
-Route::post('me/associates', 'UserController@addMemberToMyGroup')->name('user.add.associate');
+//TODO
 //Adicionar ao meu grupo de associados
-Route::delete('me/associates/{user}', 'UserController@deleteMemberFromMyGroup')->name('user.delete.associate');
+Route::delete('me/associates/{my_associate}', 'UserController@deleteMemberFromMyGroup')->name('user.delete.associate');
 
 // Formulário para editar
 Route::get('/users/{user}/edit', 'UserController@edit')->name('users.edit');

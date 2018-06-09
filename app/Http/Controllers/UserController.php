@@ -64,8 +64,10 @@ class UserController extends Controller
         return view('users.edit_user', compact('user'));
     }
 
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request)
     {
+        $user = Auth::user();
+
         if ($request->hasFile('profile_photo')) {
             $profile_photo = $request->file('profile_photo');
             $filename = time() . '.' . $profile_photo->getClientOriginalExtension();
@@ -82,21 +84,28 @@ class UserController extends Controller
             return redirect()->back()->with("error","At least one of the fields must be filed.");
         }
 
-        if(strcmp(Auth::user()->email, $request->get('email')) == 0){
-            //Current email and new email are same
-            return redirect()->back()->with("error","New Email cannot be same as your current email. Please choose a different email.");
-        }
- 
-        if(strcmp(Auth::user()->name, $request->get('name')) == 0){
-            //Current name and new name are same
-            return redirect()->back()->with("error","New Name cannot be same as your current name. Please choose a different name.");
+        if($request->get('phone')!= 0) {
+            if(strcmp(Auth::user()->email, $request->get('email')) == 0){
+                //Current email and new email are same
+                return redirect()->back()->with("error","New Email cannot be same as your current email. Please choose a different email.");
+            }
         }
 
-        if(strcmp(Auth::user()->phone, $request->get('phone')) == 0){
-            //Current phone and new phone are same
-            return redirect()->back()->with("error","New Phone cannot be same as your current phone. Please choose a different phone.");
+        if($request->get('name')!= 0) {
+            if(strcmp(Auth::user()->name, $request->get('name')) == 0){
+                //Current name and new name are same
+                return redirect()->back()->with("error","New Name cannot be same as your current name. Please choose a different name.");
+            }
         }
 
+        if($request->get('phone')!= 0) {
+            if(strcmp(Auth::user()->phone, $request->get('phone')) == 0){
+                //Current phone and new phone are same
+                return redirect()->back()->with("error","New Phone cannot be same as your current phone. Please choose a different phone.");
+            }
+        } else {
+            $user->phone = $request->get('phone');
+        }
         $user->save();
         return redirect()->route('profile')->with('success', 'Profile updated successfully!');
     }
@@ -104,37 +113,6 @@ class UserController extends Controller
     public function profile(){
         return view('profile', array('user' => Auth::user()));
     }
-
-
-    public function showChangePasswordForm(){
-        return view('auth.changepassword');
-    }
-
-    public function changePassword(UpdateUserRequest $request){
- 
-        if (!(Hash::check($request->get('current-password'),  Auth::user()->password) && $request->get('new-password') == $request->get('new-password-confirmation'))) {
-            // The passwords matches
-            return redirect()->back()->with("error","Your current password does not matches with the password you provided. Please try again.");
-        }
- 
-        if(strcmp($request->get('current-password'), $request->get('new-password')) == 0){
-            //Current password and new password are same
-            return redirect()->back()->with("error","New Password cannot be same as your current password. Please choose a different password.");
-        }
-
- 
-        $validatedData = $request->validate([
-            'current-password' => 'required',
-            'new-password' => 'required|string|min:3|confirmed',
-        ]);
-
-        if($validatedData == false){
-            abort();
-        } else {
-            return redirect()->back()->with("success","Password changed successfully!");
-        }
-    }
-
 
     public function showListForAdmins(Request $request){
 
@@ -146,6 +124,16 @@ class UserController extends Controller
         $admin = $request->query('admin');
         $blocked = $request->query('blocked');
         if($name != "" || $admin != "" || $blocked!= ""){
+            if ($admin == "admin"){
+                $admin = 1;
+            } elseif ($admin == "normal") {
+                $admin = 0;
+            }
+            if ($blocked == "blocked"){
+                $blocked = 1;
+            } elseif ($blocked == "unblocked") {
+                $blocked = 0;
+            }
             $users = User::where('name', 'LIKE', '%' . $name . '%')
                 ->where('admin', 'LIKE', $admin)
                 ->where('blocked', 'LIKE', $blocked)
