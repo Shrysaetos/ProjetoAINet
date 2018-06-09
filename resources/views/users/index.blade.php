@@ -26,7 +26,7 @@
             <tbody>
             @foreach ($users as $user)
                 <tr>
-                    <td><img src="/uploads/profiles/{{$user->getProfilePhoto()}}" alt="profile_photo" style="width:100px; height:100px; float:left; border-radius:50%; margin-right:30px"></td>
+                    <td><img src="{{asset('storage/profiles/'.$user->getProfilePhoto())}}" alt="profile_photo" style="width:100px; height:100px; float:left; border-radius:50%; margin-right:30px"></td>
                     <td>{{ $user->name }}
                         @if ($associate::amAssociate($user))
                             <span>associate-of</span>

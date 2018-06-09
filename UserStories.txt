@@ -8,7 +8,7 @@
 8 ---------------------
 9 - 4F/8 PASSWORDS 
 10 - 9F/20 UPDATE DADOS (parecido com US9)
-11 - 1F/10 (filtros de procura) <-----------------
+11 - COMPLETA
 12 - 3F/5
 13 - 4F/6
 29 - 9F/9

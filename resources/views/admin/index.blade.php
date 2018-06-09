@@ -44,15 +44,7 @@
             <tbody>
             @foreach ($users as $user)
                 <tr>
-                    @if ($user->blocked == 1)
-                        <td class="user-is-blocked">{{ $user->name}}</td>
-                    @else
-                        @if ($user->admin == 1)
-                            <td class="user-is-admin">{{ $user->name}}</td>
-                        @else
-                            <td>{{ $user->name}}</td>
-                        @endif
-                    @endif
+                    @include ('users.partials.admin-name')
                     <td>{{ $user->email}}</td>
                     <td>{{ $user->admin}}</td>
                     <td>{{ $user->blocked}}</td>
