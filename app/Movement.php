@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\MovementCategory;
 use App\Account;
 
+
 class Movement extends Model
 {
 

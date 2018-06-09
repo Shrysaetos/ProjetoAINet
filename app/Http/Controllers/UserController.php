@@ -271,5 +271,12 @@ class UserController extends Controller
         }
         return redirect()->back();    
     }
+
+     public function generalStats(User $user){
+
+        $this->authorize('viewStats', $user);
+
+
+     }
 }
 

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreDocumentRequest;
+use App\Movement;
+use App\Document;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
 {
@@ -53,6 +57,41 @@ class DocumentController extends Controller
         return redirect()
             ->route('movement.edit', $movement->id)
             ->with('success', 'Document added successfully.');
+    }
+
+
+
+
+    public function delete(Document $document)
+    {
+
+        $this->authorize('delete', $document);
+
+        $movement = $document->getMovement();
+
+        $extention = \File::extension($document->original_name);
+        Storage::delete("documents/{$account->id}/{$movement->id}.{$extention}");
+
+        $document->delete();
+
+        $movement->document_id = null;
+        $movement->save();
+
+        return redirect()
+            ->route('movement.edit', $movement->id)
+            ->with('success', 'Document deleted successfully.');
+    }
+
+
+    public function download(Document $document)
+    {
+        
+        $this->authorize('download', $document);
+
+        $extention = \File::extension($document->original_name);
+
+
+        return Storage::download("documents/{$account->id}/{$movement->id}.{$extention}", $document->original_name);
     }
 
     

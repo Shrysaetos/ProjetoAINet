@@ -13,6 +13,8 @@ use App\Movement;
 use App\MovementCategory;
 use App\User;
 use Carbon\Carbon;
+use App\Document;
+use Illuminate\Support\Facades\Storage;
 
 class MovementController extends Controller
 {
@@ -77,7 +79,7 @@ class MovementController extends Controller
 
         Movement::recalculatMovimentAddedOrEdited($newMovement);
 
-        if(isset($data['document_file'])){
+        if(isset($data['document_file']) ){
             $extention = \File::extension($data['document_file']->getClientOriginalName());
             $file_name = $data['document_file']->getClientOriginalName();
             if($extention == "jpg"){
@@ -98,13 +100,8 @@ class MovementController extends Controller
 
             $newMovement->document_id=$newDocument->id;
             $newMovement->save();
-
-        }         
+        }    
         
-        
-        
-
-
         
 
         return redirect()
@@ -161,9 +158,23 @@ class MovementController extends Controller
         $movement = Movement::where('id', $movementId)->firstOrFail();
         $account = Account::where('id', $movement->account_id)->firstOrFail();
 
+
         $this->authorize('delete', $movement);
 
+        if (!is_null($movement->document_id)){
+            $movementDocument = Document::where('id', $movement->document_id)->firstOrFail();
+
+            $extention = \File::extension($movementDocument->original_name);
+            Storage::delete("documents/{$account->id}/{$movement->id}.{$extention}");
+        }
+
         $movement->delete();
+
+        if(isset($movementDocument) && !is_null($movementDocument)){
+            $movementDocument->delete();
+        }        
+
+        
 
         return redirect()
             ->route('movement.index', $account)

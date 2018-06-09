@@ -118,10 +118,12 @@ Route::put('/movement/{movement}', 'MovementController@update')->name('movement.
 
 Route::delete('/movement/{movement}', 'MovementController@delete')->name('movement.delete');
 
-Route::delete('/documents/{movement}', 'MovementController@document')->name('movement.document');
 
-//Route::delete('/document/{document}', 'MovementController@documentDelete')->name('movement.documentDelete');
-//Route::get('/document/{document}', 'MovementController@documentDownload')->name('movement.documentDownload');
+
+Route::post('/documents/{movement}', 'DocumentController@upload')->name('movement.document');
+
+Route::delete('/document/{document}', 'DocumentController@delete')->name('movement.documentDelete');
+Route::get('/document/{document}', 'DocumentController@download')->name('movement.download');
 
 
 

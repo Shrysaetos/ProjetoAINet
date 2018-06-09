@@ -62,6 +62,16 @@ class UserPolicy
         
     }
 
+    public function viewStats (User $user, User $requester){
+
+       if ($user->id == $requester->id){
+            return true;
+        }
+
+        return false;
+        
+    }
+
 
 
 }

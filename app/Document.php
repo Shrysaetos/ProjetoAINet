@@ -10,7 +10,7 @@ class Document extends Model
         'type', 'original_name', 'description', 'created_at'
     ];
 
-    public function get_movement()
+    public function getMovement()
     {
         return Movement::where('document_id', $this->id)->firstOrFail();
     }
